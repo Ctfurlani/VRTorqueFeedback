@@ -327,6 +327,255 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 267106088}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &404457383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 404457389}
+  - component: {fileID: 404457388}
+  - component: {fileID: 404457387}
+  - component: {fileID: 404457386}
+  - component: {fileID: 404457385}
+  - component: {fileID: 404457384}
+  m_Layer: 0
+  m_Name: Feedback
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &404457384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 404457383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowRect:
+    serializedVersion: 2
+    x: 471
+    y: 194
+    width: 151
+    height: 115
+  nodes:
+  - name: ReactingTarget
+    text: Feedback
+    nodeType: 0
+    objectTarget: {fileID: 0}
+    tooltip: Reacting Target
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 214
+      width: 151
+      height: 18
+    updated: 1
+  - name: setAngle
+    text: Set Angle
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<float>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 232
+      width: 151
+      height: 18
+    updated: 1
+  - name: getAngle
+    text: Get Angle
+    nodeType: 2
+    objectTarget: {fileID: 152689956}
+    tooltip: Output<float>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 250
+      width: 151
+      height: 18
+    updated: 1
+  - name: rotateDrag
+    text: Rotate by drag
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<DragData>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 268
+      width: 151
+      height: 18
+    updated: 1
+  - name: RotationAxisReactor
+    text: RotationAxisReactor
+    nodeType: 1
+    objectTarget: {fileID: 0}
+    tooltip: RotationAxisReactor
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 286
+      width: 151
+      height: 18
+    updated: 1
+  upAxis: 2
+  forwardAxis: 1
+  invert: 0
+--- !u!114 &404457385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 404457383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowRect:
+    serializedVersion: 2
+    x: 471
+    y: 13
+    width: 151
+    height: 115
+  nodes:
+  - name: ReactingTarget
+    text: Feedback
+    nodeType: 0
+    objectTarget: {fileID: 0}
+    tooltip: Reacting Target
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 33
+      width: 151
+      height: 18
+    updated: 1
+  - name: setAngle
+    text: Set Angle
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<float>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 51
+      width: 151
+      height: 18
+    updated: 1
+  - name: getAngle
+    text: Get Angle
+    nodeType: 2
+    objectTarget: {fileID: 1083343717}
+    tooltip: Output<float>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 69
+      width: 151
+      height: 18
+    updated: 1
+  - name: rotateDrag
+    text: Rotate by drag
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<DragData>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 87
+      width: 151
+      height: 18
+    updated: 1
+  - name: RotationAxisReactor
+    text: RotationAxisReactor
+    nodeType: 1
+    objectTarget: {fileID: 0}
+    tooltip: RotationAxisReactor
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 105
+      width: 151
+      height: 18
+    updated: 1
+  upAxis: 0
+  forwardAxis: 1
+  invert: 0
+--- !u!135 &404457386
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 404457383}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &404457387
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 404457383}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 921837a5408991d429e86efc66f8be6b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &404457388
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 404457383}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &404457389
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 404457383}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &478600090
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +1219,7 @@ Prefab:
     - target: {fileID: 54987539480218258, guid: d754faaf9636e844d94c71577c0031c5,
         type: 2}
       propertyPath: m_Mass
-      value: 50
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4100585329269698, guid: d754faaf9636e844d94c71577c0031c5, type: 2}
       propertyPath: m_LocalScale.x
@@ -1297,169 +1546,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9340e73628722fe40b5feb1d691f2f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowRect:
-    serializedVersion: 2
-    x: 522
-    y: 30
-    width: 203
-    height: 115
-  nodes:
-  - name: ReactingTarget
-    text: FallbackHand
-    nodeType: 0
-    objectTarget: {fileID: 0}
-    tooltip: Reacting Target
-    rect:
-      serializedVersion: 2
-      x: 522
-      y: 50
-      width: 203
-      height: 18
-    updated: 1
-  - name: setAngle
-    text: Set Angle
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<float>
-    rect:
-      serializedVersion: 2
-      x: 522
-      y: 68
-      width: 203
-      height: 18
-    updated: 1
-  - name: getAngle
-    text: Get Angle
-    nodeType: 2
-    objectTarget: {fileID: 1083343717}
-    tooltip: Output<float>
-    rect:
-      serializedVersion: 2
-      x: 522
-      y: 86
-      width: 203
-      height: 18
-    updated: 1
-  - name: rotateDrag
-    text: Rotate by drag
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<DragData>
-    rect:
-      serializedVersion: 2
-      x: 522
-      y: 104
-      width: 203
-      height: 18
-    updated: 1
-  - name: TorqueAwareServoController
-    text: TorqueAwareServoController
-    nodeType: 1
-    objectTarget: {fileID: 0}
-    tooltip: TorqueAwareServoController
-    rect:
-      serializedVersion: 2
-      x: 522
-      y: 122
-      width: 203
-      height: 18
-    updated: 1
-  torqueComponentAxis: 0
-  invert: 0
   hand: {fileID: 1508710151}
---- !u!114 &1508710147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1508710145}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9340e73628722fe40b5feb1d691f2f39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowRect:
-    serializedVersion: 2
-    x: 525
-    y: 206
-    width: 203
-    height: 115
-  nodes:
-  - name: ReactingTarget
-    text: FallbackHand
-    nodeType: 0
-    objectTarget: {fileID: 0}
-    tooltip: Reacting Target
-    rect:
-      serializedVersion: 2
-      x: 525
-      y: 226
-      width: 203
-      height: 18
-    updated: 1
-  - name: setAngle
-    text: Set Angle
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<float>
-    rect:
-      serializedVersion: 2
-      x: 525
-      y: 244
-      width: 203
-      height: 18
-    updated: 1
-  - name: getAngle
-    text: Get Angle
-    nodeType: 2
-    objectTarget: {fileID: 152689956}
-    tooltip: Output<float>
-    rect:
-      serializedVersion: 2
-      x: 525
-      y: 262
-      width: 203
-      height: 18
-    updated: 1
-  - name: rotateDrag
-    text: Rotate by drag
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<DragData>
-    rect:
-      serializedVersion: 2
-      x: 525
-      y: 280
-      width: 203
-      height: 18
-    updated: 1
-  - name: TorqueAwareServoController
-    text: TorqueAwareServoController
-    nodeType: 1
-    objectTarget: {fileID: 0}
-    tooltip: TorqueAwareServoController
-    rect:
-      serializedVersion: 2
-      x: 525
-      y: 298
-      width: 203
-      height: 18
-    updated: 1
-  torqueComponentAxis: 2
-  invert: 1
-  hand: {fileID: 1508710151}
---- !u!114 &1508710150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1508710145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da898976f83063b4c87e0a1b89ecb533, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Speed: 200
+  feedback: {fileID: 404457389}
 --- !u!114 &1508710151 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11497470, guid: dc06161b6d97feb419f45f03b62e14b9,

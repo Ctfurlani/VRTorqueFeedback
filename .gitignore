@@ -6,6 +6,7 @@
 Assets/AssetStoreTools*
 Assets/ARDUnity
 Assets/SteamVR
+/ExportedSketches
 
 # Visual Studio cache directory
 .vs/
@@ -36,3 +37,4 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
