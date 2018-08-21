@@ -77,11 +77,11 @@ public class TorqueAwareFeedbackController : MonoBehaviour
             angle = Mathf.Clamp(angle, MIN_THETA, MAX_THETA);
 
 
-            /*Debug.DrawLine(controllerCenterOfMass, attachedCenterOfMass);
+            Debug.DrawLine(controllerCenterOfMass, attachedCenterOfMass);
             Debug.Log(string.Format("sign={0}", sign));
             Debug.DrawLine(controllerCenterOfMass, torqueComponent);
             Debug.Log(string.Format("|idealTorque|={0} , |torqueComponent|={1} , sign={2}, theta={3}",
-                    idealTorque.magnitude, torqueComponent.magnitude, sign, angle));*/
+                    idealTorque.magnitude, torqueComponent.magnitude, sign, angle));
         }
 
         return angle;
