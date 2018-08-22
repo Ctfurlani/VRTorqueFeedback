@@ -22,9 +22,13 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     // Move feedback to desired location
     private void FixedUpdate()
     {
-        float xRotation = CalculateFeedbackAngle(UnitVector(XYZAxis.X));
+        // Components of the torque that we are interested. They are the local XYZ axis of the hand
+        Vector3 xComponent = hand.transform.rotation * UnitVector(XYZAxis.X);
+        Vector3 zComponent = hand.transform.rotation * UnitVector(XYZAxis.Z);
+
+        float xRotation = CalculateFeedbackAngle(xComponent);
         float yRotation = 0;
-        float zRotation = CalculateFeedbackAngle(UnitVector(XYZAxis.Z));
+        float zRotation = CalculateFeedbackAngle(zComponent);
 
         Quaternion desiredRotation = Quaternion.Euler(new Vector3(xRotation, yRotation, zRotation));
 
@@ -36,7 +40,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         switch (axis)
         {
             default:
-            case XYZAxis.X: return new Vector3(1, 0, 0);
+            case XYZAxis.X: return new Vector3(1, 0, 0); 
             case XYZAxis.Y: return new Vector3(0, 1, 0);
             case XYZAxis.Z: return new Vector3(0, 0, 1);
         }
@@ -63,29 +67,31 @@ public class TorqueAwareFeedbackController : MonoBehaviour
             // Calculate ideal torque by T = R x W
             Vector3 idealTorque = Vector3.Cross(controllerToAttached, objectWeight);
 
-            // Find component of ideal torque of the axis we are analysing (Axis torqueComponentAxis)
-            float dotProduct = Vector3.Dot(idealTorque, torqueComponentUnitVector);
-            Vector3 torqueComponent = dotProduct * torqueComponentUnitVector;
-            float sign = (dotProduct > 0) ? 1 : -1;
-
-
-            float asinParameter = torqueComponent.magnitude / (FEEDBACK_LENGHT * FEEDBACK_MASS * GRAVITY);
-            asinParameter = Mathf.Clamp(asinParameter, -1, 1);
+            // Find component of ideal torque over the axis (relative to the hand) we are analysing
+            float projectedMagnitude = Vector3.Dot(idealTorque, torqueComponentUnitVector);
+            Vector3 torqueComponent = projectedMagnitude * torqueComponentUnitVector;
 
             // Calculate angle the feedback should move to
+            float sign = (projectedMagnitude > 0) ? 1 : -1;
+            float asinParameter = torqueComponent.magnitude / (FEEDBACK_LENGHT * FEEDBACK_MASS * GRAVITY);
+            asinParameter = Mathf.Clamp(asinParameter, -1, 1);
             angle = sign * Mathf.Asin(asinParameter) * Mathf.Rad2Deg;
             angle = Mathf.Clamp(angle, MIN_THETA, MAX_THETA);
 
+            Debug.Log("ControllerToAttached= " + controllerToAttached);
+            Debug.Log("Weight= " + objectWeight);
+            Debug.Log("IdealTorque=" + idealTorque);
+            Debug.Log("ProjectedMagnitude= " + projectedMagnitude);
+            Debug.Log("TorqueComponent= " + torqueComponent);
+            Debug.Log("AsinParameter=" + asinParameter);
+            Debug.Log("Angle=" + angle);
 
-            Debug.DrawLine(controllerCenterOfMass, attachedCenterOfMass);
-            Debug.Log(string.Format("sign={0}", sign));
-            Debug.DrawLine(controllerCenterOfMass, torqueComponent);
-            Debug.Log(string.Format("|idealTorque|={0} , |torqueComponent|={1} , sign={2}, theta={3}",
-                    idealTorque.magnitude, torqueComponent.magnitude, sign, angle));
+            /*Debug.DrawLine(controllerCenterOfMass, attachedCenterOfMass);
+            Debug.DrawLine(controllerCenterOfMass, torqueComponent);*/
         }
 
         return angle;
-    }
+    }    
 
     private bool ObjectIsAttached()
     {
