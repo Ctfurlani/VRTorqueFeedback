@@ -1561,7 +1561,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000010777624494, guid: fb710a001890d9a44bb74a8ce4f20cc0, type: 2}
       propertyPath: m_Name
-      value: Interactable Cube 1
+      value: Block 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114000013394261110, guid: fb710a001890d9a44bb74a8ce4f20cc0, type: 2}
@@ -3159,7 +3159,7 @@ Prefab:
     - target: {fileID: 54000012175907764, guid: fb710a001890d9a44bb74a8ce4f20cc0,
         type: 2}
       propertyPath: m_Mass
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4000011633437892, guid: fb710a001890d9a44bb74a8ce4f20cc0, type: 2}
       propertyPath: m_LocalScale.x
@@ -3185,7 +3185,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000010777624494, guid: fb710a001890d9a44bb74a8ce4f20cc0, type: 2}
       propertyPath: m_Name
-      value: Interactable Cube 2
+      value: Block 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114000013394261110, guid: fb710a001890d9a44bb74a8ce4f20cc0, type: 2}
