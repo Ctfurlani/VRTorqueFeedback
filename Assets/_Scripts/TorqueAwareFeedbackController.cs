@@ -30,7 +30,8 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         float yRotation = 0;
         float zRotation = CalculateFeedbackAngle(zComponent);
 
-        Quaternion desiredRotation = Quaternion.Euler(new Vector3(xRotation, yRotation, zRotation));
+        Vector3 eulerAngles = new Vector3(xRotation, yRotation, zRotation);
+        Quaternion desiredRotation = Quaternion.Euler(eulerAngles);
 
         feedback.rotation = Quaternion.Lerp(feedback.rotation, desiredRotation, FEEDBACK_SPEED * Time.time);
     }
@@ -47,7 +48,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     }
 
     private float CalculateFeedbackAngle(Vector3 torqueComponentUnitVector)
-    {
+    {        
         // Start the angle as 0 so if no object is being held no rotation will occur
         float angle = 0;
 
@@ -78,16 +79,20 @@ public class TorqueAwareFeedbackController : MonoBehaviour
             angle = sign * Mathf.Asin(asinParameter) * Mathf.Rad2Deg;
             angle = Mathf.Clamp(angle, MIN_THETA, MAX_THETA);
 
-            Debug.Log("ControllerToAttached= " + controllerToAttached);
+            /*Debug.Log("ControllerToAttached= " + controllerToAttached);
             Debug.Log("Weight= " + objectWeight);
             Debug.Log("IdealTorque=" + idealTorque);
             Debug.Log("ProjectedMagnitude= " + projectedMagnitude);
             Debug.Log("TorqueComponent= " + torqueComponent);
             Debug.Log("AsinParameter=" + asinParameter);
-            Debug.Log("Angle=" + angle);
+            Debug.Log("Angle=" + angle);*/
 
             /*Debug.DrawLine(controllerCenterOfMass, attachedCenterOfMass);
             Debug.DrawLine(controllerCenterOfMass, torqueComponent);*/
+        }
+        else
+        {
+            Debug.Log("Nothing attached!");
         }
 
         return angle;
