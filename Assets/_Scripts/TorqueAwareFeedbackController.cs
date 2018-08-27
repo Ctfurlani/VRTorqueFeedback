@@ -7,7 +7,8 @@ public enum XYZAxis {  X , Y , Z }
 public class TorqueAwareFeedbackController : MonoBehaviour
 {
     // External References
-    public Hand hand;
+    public Hand mainHand;
+    private Hand hand;
     public Transform feedback;
 
     // Range of achievable angles (can be overriden in editor)
@@ -18,6 +19,12 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     private static readonly float FEEDBACK_LENGHT = 1;
     private static readonly float FEEDBACK_MASS = 1;
     private static readonly float GRAVITY = 9.8f;
+
+    private void Update()
+    {
+        // If there is no controller (device) for the Hand, we take the other one
+        hand = (mainHand.controller != null) ? mainHand : mainHand.otherHand;
+    }
 
     // Move feedback to desired location
     private void FixedUpdate()
