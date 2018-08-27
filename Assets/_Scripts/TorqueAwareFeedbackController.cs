@@ -8,8 +8,10 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 {
     // External References
     public Hand mainHand;
-    private Hand hand;
     public Transform feedback;
+    public bool debuggableIn2D;
+
+    private Hand hand;
 
     // Range of achievable angles (can be overriden in editor)
     public const float MAX_THETA = 80;
@@ -22,8 +24,15 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
     private void Update()
     {
-        // If there is no controller (device) for the Hand, we take the other one
-        hand = (mainHand.controller != null) ? mainHand : mainHand.otherHand;
+        if (debuggableIn2D)
+        {
+            hand = mainHand;
+        }
+        else
+        {
+            // If there is no controller (device) for the Hand, we take the other one
+            hand = (mainHand.controller != null) ? mainHand : mainHand.otherHand;
+        }
     }
 
     // Move feedback to desired location
