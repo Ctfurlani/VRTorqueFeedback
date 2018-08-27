@@ -892,6 +892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainHand: {fileID: 2055361177}
   feedback: {fileID: 768175677}
+  debuggableIn2D: 0
 --- !u!1 &478600090
 GameObject:
   m_ObjectHideFlags: 0
@@ -2256,6 +2257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainHand: {fileID: 1508710151}
   feedback: {fileID: 768175677}
+  debuggableIn2D: 1
 --- !u!1 &1486391949
 GameObject:
   m_ObjectHideFlags: 0
