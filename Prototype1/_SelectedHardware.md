@@ -12,7 +12,24 @@
     - x2 632108
     - x3 632110
 
-//TODO Account for spindle parts (another hub horn, spacer and beam?)
+Bill of Materials For prototype_0_actobotics.asm
+
+|Part               |Quantity   |File Name	|Buy/Print  |Link                   |
+|:---:	            |:---:	    |:---:	    |:---:      |:---:	                |
+|Hitec HS-311 Servo |1   	    |   	    |Buy        |   	                |
+|Hitec HS-311 Servo |1    	    |   	    |-          |   	                |
+|Std-Servo Plate A  |1   	    |   	    |Print      |   	                |
+|Hub Horn (disk)    |2   	    |   	    |Print      |https://goo.gl/RcKKAo  |
+|Pattern Bracket    |1   	    |   	    |Print      |https://goo.gl/cb6QCk  |
+|Side Mount B       |1    	    |   	    |Print      |https://goo.gl/otaodq  |
+|Aluminum Beam 6-16 |1   	    |   	    |Print      |   	                |
+|Screw 04           |4   	    |   	    |Print      |   	                |
+|Screw 06           |2   	    |   	    |Print      |   	                |
+|Screw 08           |2   	    |   	    |Print      |   	                |
+|Screw 10           |3   	    |   	    |Print      |   	                |
+|Screw 20           |2   	    |   	    |Print      |   	                |
+|Bolt  	            |5   	    |   	    |Print      |   	                |
+|Custom Spacer      |1    	    |   	    |Print      |   	                |	
 
 ## Buy
 - **R$ 56,90 + R$ 20.90** | 1x Standard Servo Hitec HS-311 (https://goo.gl/PXjvbA)
