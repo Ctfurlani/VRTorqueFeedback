@@ -1,38 +1,23 @@
 # Prototype 0 Hardware List
 
-## 3D Print
-- 1x standard hub horn C1 (24 tooth) (https://goo.gl/RcKKAo)
-- 1x standard pattern bracket (https://goo.gl/cb6QCk)
-- 1x 90 degrees dual side mount B (https://goo.gl/otaodq)
-- 1x standard servo plate A (https://goo.gl/hHZ4xE)
-- 3x nuts (https://goo.gl/WMunDN)
-- bolts (https://goo.gl/LqVes7)
-    - x4 632104
-    - x2 632106
-    - x2 632108
-    - x3 632110
+|Part               |Quantity   |Buy/Print  |File Name (insede Prototype1/Prototype0)   |Link                   |
+|---	            |:---:	    |:---:      |---	                                    |---	                |
+|Hitec HS-311 Servo |1   	    |Buy*       |servo_hs_311                               |https://goo.gl/PXjvbA  |
+|Hitec HS-311 Servo |1    	    |-          |servo_hs_311                               |https://goo.gl/PXjvbA  |
+|Std-Servo Plate A  |1   	    |Print      |actobotics/servo_plate_standard_a.par      |https://goo.gl/hHZ4xE  |
+|Hub Horn (disk)    |2   	    |Print      |actobotics/disco_hub_1.par                 |https://goo.gl/RcKKAo  |
+|Pattern Bracket    |1   	    |Print      |actobotics/pattern_bracket_standard.par    |https://goo.gl/cb6QCk  |
+|Side Mount B       |1    	    |Print      |actobotics/side_mount_b.par                |https://goo.gl/otaodq  |
+|Aluminum Beam 6-16 |1   	    |Print      |actobotics/beam_aluminum_vertical.par      |https://goo.gl/EDe8Bq  |
+|Screw 04           |4   	    |Print      |actobotics/screw_632104                    |https://goo.gl/LqVes7  |
+|Screw 06           |2   	    |Print      |actobotics/screw_632106                    |https://goo.gl/LqVes7  |
+|Screw 08           |2   	    |Print      |actobotics/screw_632108                    |https://goo.gl/LqVes7  |
+|Screw 10           |3   	    |Print      |actobotics/screw_632110                    |https://goo.gl/LqVes7  |
+|Screw 20           |2   	    |Print      |actobotics/screw_632120                    |https://goo.gl/LqVes7  |
+|Nut  	            |5   	    |Print      |actobotics/nut                             |https://goo.gl/WMunDN  |
+|Custom Spacer      |1    	    |Print      |custom/custom_spacer                       |-                      |	
 
-Bill of Materials For prototype_0_actobotics.asm
-
-|Part               |Quantity   |File Name	|Buy/Print  |Link                   |
-|:---:	            |:---:	    |:---:	    |:---:      |:---:	                |
-|Hitec HS-311 Servo |1   	    |   	    |Buy        |   	                |
-|Hitec HS-311 Servo |1    	    |   	    |-          |   	                |
-|Std-Servo Plate A  |1   	    |   	    |Print      |   	                |
-|Hub Horn (disk)    |2   	    |   	    |Print      |https://goo.gl/RcKKAo  |
-|Pattern Bracket    |1   	    |   	    |Print      |https://goo.gl/cb6QCk  |
-|Side Mount B       |1    	    |   	    |Print      |https://goo.gl/otaodq  |
-|Aluminum Beam 6-16 |1   	    |   	    |Print      |   	                |
-|Screw 04           |4   	    |   	    |Print      |   	                |
-|Screw 06           |2   	    |   	    |Print      |   	                |
-|Screw 08           |2   	    |   	    |Print      |   	                |
-|Screw 10           |3   	    |   	    |Print      |   	                |
-|Screw 20           |2   	    |   	    |Print      |   	                |
-|Bolt  	            |5   	    |   	    |Print      |   	                |
-|Custom Spacer      |1    	    |   	    |Print      |   	                |	
-
-## Buy
-- **R$ 56,90 + R$ 20.90** | 1x Standard Servo Hitec HS-311 (https://goo.gl/PXjvbA)
+*Price: R$ 56,90 + R$ 20.90 (shipping)
 
 # Prototype 1 Hardware List
 
