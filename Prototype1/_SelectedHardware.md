@@ -1,6 +1,6 @@
 # Prototype 0 Hardware List
 
-|Part               |Quantity   |Buy/Print  |File Name (insede Prototype1/Prototype0)   |Link                   |
+|Part               |Quantity   |Buy/Print  |File Name (inside Prototype1/Prototype0)   |Link                   |
 |---	            |:---:	    |:---:      |---	                                    |---	                |
 |Hitec HS-311 Servo |1   	    |Buy*       |servo_hs_311                               |https://goo.gl/PXjvbA  |
 |Hitec HS-311 Servo |1    	    |-          |servo_hs_311                               |https://goo.gl/PXjvbA  |
