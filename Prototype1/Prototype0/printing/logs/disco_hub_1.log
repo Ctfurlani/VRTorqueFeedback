@@ -1,0 +1,31 @@
+Solid Edge Translation to STL
+Date: Thursday,September 27,2018 01:16PM
+Source File:H:\Gabriel\UnityProjects\VRTorqueFeedback\Prototype1\Prototype0\actobotics\disco_hub_1.par
+Output File: H:\Gabriel\UnityProjects\VRTorqueFeedback\Prototype1\Prototype0\printing\disco_hub_1.stl
+Source System: SOLID EDGE
+
+Hardware:
+Processor: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+Operating System: Windows 8
+Memory: 31.95 GB
+
+Software Information:
+Parasolid Version: 30.0.167
+Bodyshop Version: 30.0.81
+Solid Edge Version: 110.00.03.003 x64
+
+STL Export Options:
+Output File Format:BINARY
+Export Displayed Parts:Off
+structureOption: Monolithic
+Export Units:Millimeter
+Export Tolerance Value:0.001000
+Export Tolerance Type:Fine
+Export Surface Plane Angle Value:0.523599
+
+Translation progress:
+Phase 1 of 2 Fetching Parasolid information...
+Phase 2 of 2 Translating Parasolid to foreign data types...
+Number of STL file Created : 1
+Translation process completed
+Time required to translate:00 : 00 : 01
