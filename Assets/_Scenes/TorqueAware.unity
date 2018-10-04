@@ -381,8 +381,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowRect:
     serializedVersion: 2
-    x: 313
-    y: 191
+    x: 312
+    y: 190
     width: 114
     height: 133
   nodes:
@@ -393,8 +393,8 @@ MonoBehaviour:
     tooltip: GameObject
     rect:
       serializedVersion: 2
-      x: 313
-      y: 211
+      x: 312
+      y: 210
       width: 114
       height: 18
     updated: 1
@@ -405,8 +405,8 @@ MonoBehaviour:
     tooltip: Controller ID
     rect:
       serializedVersion: 2
-      x: 313
-      y: 229
+      x: 312
+      y: 228
       width: 114
       height: 18
     updated: 1
@@ -417,8 +417,8 @@ MonoBehaviour:
     tooltip: Arduino Digital Pin
     rect:
       serializedVersion: 2
-      x: 313
-      y: 247
+      x: 312
+      y: 246
       width: 114
       height: 18
     updated: 1
@@ -429,8 +429,8 @@ MonoBehaviour:
     tooltip: ArdunityApp
     rect:
       serializedVersion: 2
-      x: 313
-      y: 265
+      x: 312
+      y: 264
       width: 114
       height: 18
     updated: 1
@@ -441,8 +441,8 @@ MonoBehaviour:
     tooltip: Output<float>
     rect:
       serializedVersion: 2
-      x: 313
-      y: 283
+      x: 312
+      y: 282
       width: 114
       height: 18
     updated: 1
@@ -453,8 +453,8 @@ MonoBehaviour:
     tooltip: GenericServo
     rect:
       serializedVersion: 2
-      x: 313
-      y: 301
+      x: 312
+      y: 300
       width: 114
       height: 18
     updated: 1
@@ -462,7 +462,7 @@ MonoBehaviour:
   pin: 3
   smooth: 1
   calibratedAngle: 0
-  minAngle: -70
+  minAngle: -80
   maxAngle: 90
   angle: 0
   handleObject: {fileID: 0}
@@ -607,8 +607,6 @@ GameObject:
   - component: {fileID: 404457388}
   - component: {fileID: 404457387}
   - component: {fileID: 404457386}
-  - component: {fileID: 404457385}
-  - component: {fileID: 404457384}
   - component: {fileID: 404457391}
   - component: {fileID: 404457390}
   m_Layer: 0
@@ -618,168 +616,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &404457384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 404457383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowRect:
-    serializedVersion: 2
-    x: 471
-    y: 194
-    width: 151
-    height: 115
-  nodes:
-  - name: ReactingTarget
-    text: Feedback Sphere
-    nodeType: 0
-    objectTarget: {fileID: 0}
-    tooltip: Reacting Target
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 214
-      width: 151
-      height: 18
-    updated: 1
-  - name: setAngle
-    text: Set Angle
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<float>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 232
-      width: 151
-      height: 18
-    updated: 1
-  - name: getAngle
-    text: Get Angle
-    nodeType: 2
-    objectTarget: {fileID: 152689956}
-    tooltip: Output<float>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 250
-      width: 151
-      height: 18
-    updated: 1
-  - name: rotateDrag
-    text: Rotate by drag
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<DragData>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 268
-      width: 151
-      height: 18
-    updated: 1
-  - name: RotationAxisReactor
-    text: RotationAxisReactor
-    nodeType: 1
-    objectTarget: {fileID: 0}
-    tooltip: RotationAxisReactor
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 286
-      width: 151
-      height: 18
-    updated: 1
-  upAxis: 2
-  forwardAxis: 1
-  invert: 0
---- !u!114 &404457385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 404457383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowRect:
-    serializedVersion: 2
-    x: 471
-    y: 13
-    width: 151
-    height: 115
-  nodes:
-  - name: ReactingTarget
-    text: Feedback Sphere
-    nodeType: 0
-    objectTarget: {fileID: 0}
-    tooltip: Reacting Target
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 33
-      width: 151
-      height: 18
-    updated: 1
-  - name: setAngle
-    text: Set Angle
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<float>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 51
-      width: 151
-      height: 18
-    updated: 1
-  - name: getAngle
-    text: Get Angle
-    nodeType: 2
-    objectTarget: {fileID: 1083343717}
-    tooltip: Output<float>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 69
-      width: 151
-      height: 18
-    updated: 1
-  - name: rotateDrag
-    text: Rotate by drag
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<DragData>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 87
-      width: 151
-      height: 18
-    updated: 1
-  - name: RotationAxisReactor
-    text: RotationAxisReactor
-    nodeType: 1
-    objectTarget: {fileID: 0}
-    tooltip: RotationAxisReactor
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 105
-      width: 151
-      height: 18
-    updated: 1
-  upAxis: 0
-  forwardAxis: 1
-  invert: 0
 --- !u!135 &404457386
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1316,6 +1152,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 768175677}
+  - component: {fileID: 768175679}
+  - component: {fileID: 768175678}
   m_Layer: 0
   m_Name: Feedback
   m_TagString: Untagged
@@ -1338,6 +1176,168 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &768175678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 768175676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowRect:
+    serializedVersion: 2
+    x: 471
+    y: 194
+    width: 151
+    height: 115
+  nodes:
+  - name: ReactingTarget
+    text: Feedback
+    nodeType: 0
+    objectTarget: {fileID: 0}
+    tooltip: Reacting Target
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 214
+      width: 151
+      height: 18
+    updated: 1
+  - name: setAngle
+    text: Set Angle
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<float>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 232
+      width: 151
+      height: 18
+    updated: 1
+  - name: getAngle
+    text: Get Angle
+    nodeType: 2
+    objectTarget: {fileID: 152689956}
+    tooltip: Output<float>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 250
+      width: 151
+      height: 18
+    updated: 1
+  - name: rotateDrag
+    text: Rotate by drag
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<DragData>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 268
+      width: 151
+      height: 18
+    updated: 1
+  - name: RotationAxisReactor
+    text: RotationAxisReactor
+    nodeType: 1
+    objectTarget: {fileID: 0}
+    tooltip: RotationAxisReactor
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 286
+      width: 151
+      height: 18
+    updated: 1
+  upAxis: 2
+  forwardAxis: 1
+  invert: 0
+--- !u!114 &768175679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 768175676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowRect:
+    serializedVersion: 2
+    x: 471
+    y: 13
+    width: 151
+    height: 115
+  nodes:
+  - name: ReactingTarget
+    text: Feedback
+    nodeType: 0
+    objectTarget: {fileID: 0}
+    tooltip: Reacting Target
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 33
+      width: 151
+      height: 18
+    updated: 1
+  - name: setAngle
+    text: Set Angle
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<float>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 51
+      width: 151
+      height: 18
+    updated: 1
+  - name: getAngle
+    text: Get Angle
+    nodeType: 2
+    objectTarget: {fileID: 1083343717}
+    tooltip: Output<float>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 69
+      width: 151
+      height: 18
+    updated: 1
+  - name: rotateDrag
+    text: Rotate by drag
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<DragData>
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 87
+      width: 151
+      height: 18
+    updated: 1
+  - name: RotationAxisReactor
+    text: RotationAxisReactor
+    nodeType: 1
+    objectTarget: {fileID: 0}
+    tooltip: RotationAxisReactor
+    rect:
+      serializedVersion: 2
+      x: 471
+      y: 105
+      width: 151
+      height: 18
+    updated: 1
+  upAxis: 0
+  forwardAxis: 1
+  invert: 0
 --- !u!1001 &783707020
 Prefab:
   m_ObjectHideFlags: 0
@@ -1857,7 +1857,7 @@ MonoBehaviour:
   pin: 2
   smooth: 1
   calibratedAngle: 0
-  minAngle: -70
+  minAngle: -80
   maxAngle: 90
   angle: 0
   handleObject: {fileID: 0}
