@@ -1,0 +1,31 @@
+Solid Edge Translation to STL
+Date: quinta-feira,outubro 18,2018 08:48
+Source File:C:\Users\gabri\Documents\UFRGS\bolsa\VRTorqueFeedback\Prototype1\Prototype0\actobotics\90-single-angle-short-channel-bracket.par
+Output File: C:\Users\gabri\Documents\UFRGS\bolsa\VRTorqueFeedback\Prototype1\Prototype0\printing\90-single-angle-short-channel-bracket.stl
+Source System: SOLID EDGE
+
+Hardware:
+Processor: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+Operating System: Windows 8
+Memory: 15,86 GB
+
+Software Information:
+Parasolid Version: 30.0.167
+Bodyshop Version: 30.0.81
+Solid Edge Version: 110.00.00.107 x64
+
+STL Export Options:
+Output File Format:BINARY
+Export Displayed Parts:Off
+structureOption: Monolithic
+Export Units:Inch
+Export Tolerance Value:0,050000
+Export Tolerance Type:Custom
+Export Surface Plane Angle Value:0,523599
+
+Translation progress:
+Phase 1 of 2 Fetching Parasolid information...
+Phase 2 of 2 Translating Parasolid to foreign data types...
+Number of STL file Created : 1
+Translation process completed
+Time required to translate:00 : 00 : 01
