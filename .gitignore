@@ -4,8 +4,6 @@
 [Bb]uild/
 [Bb]uilds/
 Assets/AssetStoreTools*
-Assets/ARDUnity
-Assets/SteamVR
 /ExportedSketches
 
 # Visual Studio cache directory
