@@ -2424,15 +2424,12 @@ MonoBehaviour:
       height: 18
     updated: 1
   foundDevices:
-  - name: COM1
-    address: //./COM1
-    args: []
-  - name: COM5
-    address: //./COM5
+  - name: COM8
+    address: //./COM8
     args: []
   device:
-    name: COM5
-    address: //./COM5
+    name: COM8
+    address: //./COM8
     args: []
   OnOpen:
     m_PersistentCalls:
