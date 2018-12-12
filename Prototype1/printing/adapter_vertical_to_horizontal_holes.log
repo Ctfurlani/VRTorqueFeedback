@@ -1,5 +1,5 @@
 Solid Edge Translation to STL
-Date: quarta-feira,dezembro 12,2018 02:29
+Date: quarta-feira,dezembro 12,2018 05:13
 Source File:C:\Users\gabri\Documents\UFRGS\bolsa\VRTorqueFeedback\Prototype1\3dcad\utils\adapter_vertical_to_horizontal_holes.par
 Output File: C:\Users\gabri\Documents\UFRGS\bolsa\VRTorqueFeedback\Prototype1\printing\adapter_vertical_to_horizontal_holes.stl
 Source System: SOLID EDGE
@@ -28,4 +28,4 @@ Phase 1 of 2 Fetching Parasolid information...
 Phase 2 of 2 Translating Parasolid to foreign data types...
 Number of STL file Created : 1
 Translation process completed
-Time required to translate:00 : 00 : 01
+Time required to translate:00 : 00 : 00
