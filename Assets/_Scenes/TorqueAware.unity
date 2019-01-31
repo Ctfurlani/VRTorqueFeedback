@@ -1070,6 +1070,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 678175210}
+  - component: {fileID: 678175211}
   m_Layer: 0
   m_Name: Mirror Servo Phi
   m_TagString: Untagged
@@ -1083,7 +1084,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 678175209}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: 1.5, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1092,6 +1093,87 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &678175211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 678175209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowRect:
+    serializedVersion: 2
+    x: 489
+    y: 205
+    width: 151
+    height: 115
+  nodes:
+  - name: ReactingTarget
+    text: Mirror Servo Phi
+    nodeType: 0
+    objectTarget: {fileID: 0}
+    tooltip: Reacting Target
+    rect:
+      serializedVersion: 2
+      x: 489
+      y: 225
+      width: 151
+      height: 18
+    updated: 1
+  - name: setAngle
+    text: Set Angle
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<float>
+    rect:
+      serializedVersion: 2
+      x: 489
+      y: 243
+      width: 151
+      height: 18
+    updated: 1
+  - name: getAngle
+    text: Get Angle
+    nodeType: 2
+    objectTarget: {fileID: 152689956}
+    tooltip: Output<float>
+    rect:
+      serializedVersion: 2
+      x: 489
+      y: 261
+      width: 151
+      height: 18
+    updated: 1
+  - name: rotateDrag
+    text: Rotate by drag
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<DragData>
+    rect:
+      serializedVersion: 2
+      x: 489
+      y: 279
+      width: 151
+      height: 18
+    updated: 1
+  - name: RotationAxisReactor
+    text: RotationAxisReactor
+    nodeType: 1
+    objectTarget: {fileID: 0}
+    tooltip: RotationAxisReactor
+    rect:
+      serializedVersion: 2
+      x: 489
+      y: 297
+      width: 151
+      height: 18
+    updated: 1
+  upAxis: 0
+  forwardAxis: 1
+  invert: 0
 --- !u!1 &745226847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,8 +1267,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 768175677}
-  - component: {fileID: 768175679}
-  - component: {fileID: 768175678}
   m_Layer: 0
   m_Name: Feedback
   m_TagString: Untagged
@@ -1209,168 +1289,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &768175678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 768175676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowRect:
-    serializedVersion: 2
-    x: 471
-    y: 194
-    width: 151
-    height: 115
-  nodes:
-  - name: ReactingTarget
-    text: Feedback
-    nodeType: 0
-    objectTarget: {fileID: 0}
-    tooltip: Reacting Target
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 214
-      width: 151
-      height: 18
-    updated: 1
-  - name: setAngle
-    text: Set Angle
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<float>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 232
-      width: 151
-      height: 18
-    updated: 1
-  - name: getAngle
-    text: Get Angle
-    nodeType: 2
-    objectTarget: {fileID: 152689956}
-    tooltip: Output<float>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 250
-      width: 151
-      height: 18
-    updated: 1
-  - name: rotateDrag
-    text: Rotate by drag
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<DragData>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 268
-      width: 151
-      height: 18
-    updated: 1
-  - name: RotationAxisReactor
-    text: RotationAxisReactor
-    nodeType: 1
-    objectTarget: {fileID: 0}
-    tooltip: RotationAxisReactor
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 286
-      width: 151
-      height: 18
-    updated: 1
-  upAxis: 0
-  forwardAxis: 2
-  invert: 0
---- !u!114 &768175679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 768175676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  windowRect:
-    serializedVersion: 2
-    x: 471
-    y: 13
-    width: 151
-    height: 115
-  nodes:
-  - name: ReactingTarget
-    text: Feedback
-    nodeType: 0
-    objectTarget: {fileID: 0}
-    tooltip: Reacting Target
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 33
-      width: 151
-      height: 18
-    updated: 1
-  - name: setAngle
-    text: Set Angle
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<float>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 51
-      width: 151
-      height: 18
-    updated: 1
-  - name: getAngle
-    text: Get Angle
-    nodeType: 2
-    objectTarget: {fileID: 1083343717}
-    tooltip: Output<float>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 69
-      width: 151
-      height: 18
-    updated: 1
-  - name: rotateDrag
-    text: Rotate by drag
-    nodeType: 2
-    objectTarget: {fileID: 0}
-    tooltip: Input<DragData>
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 87
-      width: 151
-      height: 18
-    updated: 1
-  - name: RotationAxisReactor
-    text: RotationAxisReactor
-    nodeType: 1
-    objectTarget: {fileID: 0}
-    tooltip: RotationAxisReactor
-    rect:
-      serializedVersion: 2
-      x: 471
-      y: 105
-      width: 151
-      height: 18
-    updated: 1
-  upAxis: 1
-  forwardAxis: 0
-  invert: 0
 --- !u!1001 &783707020
 Prefab:
   m_ObjectHideFlags: 0
@@ -2246,13 +2164,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1220563319}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 0.19999999, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 1600264278}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!54 &1220563321
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2888,6 +2806,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1600264278}
+  - component: {fileID: 1600264276}
   m_Layer: 0
   m_Name: Mirror Servo Theta
   m_TagString: Untagged
@@ -2895,13 +2814,94 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1600264276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1600264275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3d5d019600f49bb85cd2a425ad7b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowRect:
+    serializedVersion: 2
+    x: 488
+    y: 23
+    width: 151
+    height: 115
+  nodes:
+  - name: ReactingTarget
+    text: Mirror Servo Theta
+    nodeType: 0
+    objectTarget: {fileID: 0}
+    tooltip: Reacting Target
+    rect:
+      serializedVersion: 2
+      x: 488
+      y: 43
+      width: 151
+      height: 18
+    updated: 1
+  - name: setAngle
+    text: Set Angle
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<float>
+    rect:
+      serializedVersion: 2
+      x: 488
+      y: 61
+      width: 151
+      height: 18
+    updated: 1
+  - name: getAngle
+    text: Get Angle
+    nodeType: 2
+    objectTarget: {fileID: 1083343717}
+    tooltip: Output<float>
+    rect:
+      serializedVersion: 2
+      x: 488
+      y: 79
+      width: 151
+      height: 18
+    updated: 1
+  - name: rotateDrag
+    text: Rotate by drag
+    nodeType: 2
+    objectTarget: {fileID: 0}
+    tooltip: Input<DragData>
+    rect:
+      serializedVersion: 2
+      x: 488
+      y: 97
+      width: 151
+      height: 18
+    updated: 1
+  - name: RotationAxisReactor
+    text: RotationAxisReactor
+    nodeType: 1
+    objectTarget: {fileID: 0}
+    tooltip: RotationAxisReactor
+    rect:
+      serializedVersion: 2
+      x: 488
+      y: 115
+      width: 151
+      height: 18
+    updated: 1
+  upAxis: 1
+  forwardAxis: 0
+  invert: 0
 --- !u!4 &1600264278
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1600264275}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 2.5, y: 1.5, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2909,7 +2909,7 @@ Transform:
   - {fileID: 1220563320}
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1623104480
 GameObject:
   m_ObjectHideFlags: 0
