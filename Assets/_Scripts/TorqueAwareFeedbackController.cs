@@ -68,7 +68,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
         // Calculate angles of rotation from the y axis (phi) and of rotation in XZ plane (theta)
         float phi = Vector3.Angle(y, pointer);
-        float theta = Vector3.Angle(x, pointerXZProj);
+        float theta = Vector3.Angle(-z, pointerXZProj);
 
         // Rotate transforms (bound to individual servos) by phi and theta degrees
         Quaternion phiRotation = Quaternion.Euler(new Vector3(phi, 0, 0));
