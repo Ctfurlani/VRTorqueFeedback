@@ -51,7 +51,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
         // Obtain angles to rotate feedback to emulate ideal (virtual) torque
         float xRotation = CalculateFeedbackAngle(xComponent);
-        float yRotation = 0;
+        float yRotation = 180;
         float zRotation = CalculateFeedbackAngle(zComponent);
 
         // Rotate feedback 
@@ -65,21 +65,44 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         // Obtain vector from base to tip of the pointer and its projection in the XZ plane
         Vector3 pointer = feedbackPointer.position - feedback.position;
         Vector3 pointerXZProj = Vector3.ProjectOnPlane(pointer, y);
+        int quadrant = GetXZPlaneQuadrant(pointerXZProj);
 
         // Calculate angles of rotation from the y axis (phi) and of rotation in XZ plane (theta)
-        float phi = Vector3.Angle(y, pointer);
-        float theta = Vector3.Angle(-z, pointerXZProj);
+        int phiSign = GetPhiSign(pointerXZProj);
+        float phi = phiSign * Vector3.Angle(y, pointer);
+        float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * x, pointerXZProj);
+        
+        if (!ObjectIsAttached()) theta = 0;
 
         // Rotate transforms (bound to individual servos) by phi and theta degrees
-        Quaternion phiRotation = Quaternion.Euler(new Vector3(phi, 0, 0));
+        Quaternion phiRotation = Quaternion.Euler(new Vector3(0, 0, phi));
         Quaternion thetaRotation = Quaternion.Euler(new Vector3(0, theta, 0));
         servoPhi.rotation = phiRotation; //Quaternion.Lerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
         servoTheta.rotation = thetaRotation;//Quaternion.Lerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
 
         Debug.Log("phi, theta = " + phi + ", " + theta);
+        Debug.Log("quadrant=" + quadrant);  
         Debug.Log(Vector3.Dot(x, pointerXZProj));
         Debug.DrawLine(feedback.position, feedback.position + pointer, Color.red);
         Debug.DrawLine(feedback.position, feedback.position + pointerXZProj, Color.red);
+    }
+
+    private int GetXZPlaneQuadrant(Vector3 xzPlaneVector) {
+        if (xzPlaneVector.x >= 0) { // quadrant 1 or 4
+            return (xzPlaneVector.z >= 0) ? 1 : 4;
+        } else { // quadrant 2 or 3
+            return (xzPlaneVector.z >= 0) ? 2 : 3;
+        }
+    }
+    private int GetPhiSign(Vector3 pointerXZProj) {
+        int quadrant = GetXZPlaneQuadrant(pointerXZProj);
+        
+        return (quadrant == 1 || quadrant == 2) ? -1 : 1;
+    }
+    private int GetThetaXAxisReferenceSign(Vector3 pointerXZProj) {
+        int quadrant = GetXZPlaneQuadrant(pointerXZProj);
+        
+        return (quadrant == 1 || quadrant == 2) ? -1 : 1;
     }
 
     private Vector3 UnitVector(XYZAxis axis)
