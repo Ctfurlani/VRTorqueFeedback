@@ -20,7 +20,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public const float MAX_THETA = 80;
     public const float MIN_THETA = -80;
     
-    private static readonly float FEEDBACK_SPEED = 0.01f;
+    private static readonly float FEEDBACK_SPEED = 0.001f;
     private static readonly float FEEDBACK_LENGHT = 1;
     private static readonly float FEEDBACK_MASS = 1;
     private static readonly float GRAVITY = 9.8f;
@@ -35,6 +35,8 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         {
             // If there is no controller (device) for the Hand, we take the other one
             hand = (mainHand.controller != null) ? mainHand : mainHand.otherHand;
+            Debug.Log("mainHand.controller=" + mainHand.controller);
+            Debug.Log("mainHand.controller=" + mainHand.otherHand.controller);
         }
     }
 
@@ -77,8 +79,8 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         // Rotate transforms (bound to individual servos) by phi and theta degrees
         Quaternion phiRotation = Quaternion.Euler(new Vector3(0, 0, phi));
         Quaternion thetaRotation = Quaternion.Euler(new Vector3(0, theta, 0));
-        servoPhi.rotation = phiRotation; //Quaternion.Lerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
-        servoTheta.rotation = thetaRotation;//Quaternion.Lerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
+        servoPhi.rotation = /*phiRotation;*/ Quaternion.Lerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
+        servoTheta.rotation = /*thetaRotation;*/ Quaternion.Lerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
 
         Debug.Log("phi, theta = " + phi + ", " + theta);
         Debug.Log("quadrant=" + quadrant);  
