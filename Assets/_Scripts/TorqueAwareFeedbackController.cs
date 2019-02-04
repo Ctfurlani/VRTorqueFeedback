@@ -20,7 +20,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public const float MAX_THETA = 80;
     public const float MIN_THETA = -80;
     
-    private static readonly float FEEDBACK_SPEED = 0.001f;
+    private static readonly float FEEDBACK_SPEED = 0.0005f;
     private static readonly float FEEDBACK_LENGHT = 1;
     private static readonly float FEEDBACK_MASS = 1;
     private static readonly float GRAVITY = 9.8f;
@@ -51,7 +51,6 @@ public class TorqueAwareFeedbackController : MonoBehaviour
      * If no object is attached, points in the direction to maintain center of mass
      */
     private void MoveVirtualFeedback() {
-
         float xRotation = 0, yRotation = 180, zRotation = 0;
 
         if (ObjectIsAttached()) { // Offset center of mass to cause the ideal torque
@@ -69,15 +68,14 @@ public class TorqueAwareFeedbackController : MonoBehaviour
             zRotation = CalculateFeedbackAngle(zComponent);
 
         
-        } else { // Move to neutral position (keep center of mass in the center)
+        } else if (hand.controller != null)  { // Move to neutral position (keep center of mass in the center)
            
             // Use proportion to complementary angles of controller rotation
             Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
-            xRotation = CENTER_OF_MASS_COMPENSATION_FACTOR * controllerAngles.x + 30;
-            yRotation = CENTER_OF_MASS_COMPENSATION_FACTOR * controllerAngles.y + 180;
-            zRotation = CENTER_OF_MASS_COMPENSATION_FACTOR * controllerAngles.z;
+            xRotation = - (controllerAngles.x + 50);
+            zRotation = - controllerAngles.z;
 
-            Debug.Log("controllerAngles: " + controllerAngles);
+            // Debug.Log("controllerAngles: " + controllerAngles);
         }
 
         // Rotate feedback 
@@ -85,7 +83,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         Quaternion desiredRotation = Quaternion.Euler(eulerAngles);
         feedback.rotation = desiredRotation;//Quaternion.Lerp(feedback.rotation, desiredRotation, FEEDBACK_SPEED * Time.time);
 
-        Debug.Log("x,y,z rotations : " + xRotation + yRotation + zRotation);
+        // Debug.Log("x,y,z rotations : " + xRotation + yRotation + zRotation);
     }
 
     /**
@@ -106,19 +104,19 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         float phi = phiSign * Vector3.Angle(y, pointer);
         float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * x, pointerXZProj);
         
-        if (!ObjectIsAttached()) theta = 0;
+        //if (!ObjectIsAttached()) theta = 0;
 
         // Rotate transforms (bound to individual servos) by phi and theta degrees
         Quaternion phiRotation = Quaternion.Euler(new Vector3(0, 0, phi));
         Quaternion thetaRotation = Quaternion.Euler(new Vector3(0, theta, 0));
-        servoPhi.rotation = /*phiRotation;*/ Quaternion.Lerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
-        servoTheta.rotation = /*thetaRotation;*/ Quaternion.Lerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
+        servoPhi.rotation = Quaternion.Slerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
+        servoTheta.rotation = Quaternion.Slerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
 
-        Debug.Log("phi, theta = " + phi + ", " + theta);
-        Debug.Log("quadrant=" + quadrant);  
-        Debug.Log(Vector3.Dot(x, pointerXZProj));
-        Debug.DrawLine(feedback.position, feedback.position + pointer, Color.red);
-        Debug.DrawLine(feedback.position, feedback.position + pointerXZProj, Color.red);
+        // Debug.Log("phi, theta = " + phi + ", " + theta);
+        // Debug.Log("quadrant=" + quadrant);  
+        // Debug.Log(Vector3.Dot(x, pointerXZProj));
+        // Debug.DrawLine(feedback.position, feedback.position + pointer, Color.red);
+        // Debug.DrawLine(feedback.position, feedback.position + pointerXZProj, Color.red);
     }
 
     private int GetXZPlaneQuadrant(Vector3 xzPlaneVector) {
