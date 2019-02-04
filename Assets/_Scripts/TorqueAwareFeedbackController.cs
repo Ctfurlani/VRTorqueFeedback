@@ -74,16 +74,12 @@ public class TorqueAwareFeedbackController : MonoBehaviour
             Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
             xRotation = - (controllerAngles.x + 50);
             zRotation = - controllerAngles.z;
-
-            // Debug.Log("controllerAngles: " + controllerAngles);
         }
 
         // Rotate feedback 
         Vector3 eulerAngles = new Vector3(xRotation, yRotation, zRotation);
         Quaternion desiredRotation = Quaternion.Euler(eulerAngles);
-        feedback.rotation = desiredRotation;//Quaternion.Lerp(feedback.rotation, desiredRotation, FEEDBACK_SPEED * Time.time);
-
-        // Debug.Log("x,y,z rotations : " + xRotation + yRotation + zRotation);
+        feedback.rotation = desiredRotation;
     }
 
     /**
@@ -103,20 +99,12 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         int phiSign = GetPhiSign(pointerXZProj);
         float phi = phiSign * Vector3.Angle(y, pointer);
         float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * x, pointerXZProj);
-        
-        //if (!ObjectIsAttached()) theta = 0;
 
         // Rotate transforms (bound to individual servos) by phi and theta degrees
         Quaternion phiRotation = Quaternion.Euler(new Vector3(0, 0, phi));
         Quaternion thetaRotation = Quaternion.Euler(new Vector3(0, theta, 0));
         servoPhi.rotation = Quaternion.Slerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
         servoTheta.rotation = Quaternion.Slerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
-
-        // Debug.Log("phi, theta = " + phi + ", " + theta);
-        // Debug.Log("quadrant=" + quadrant);  
-        // Debug.Log(Vector3.Dot(x, pointerXZProj));
-        // Debug.DrawLine(feedback.position, feedback.position + pointer, Color.red);
-        // Debug.DrawLine(feedback.position, feedback.position + pointerXZProj, Color.red);
     }
 
     private int GetXZPlaneQuadrant(Vector3 xzPlaneVector) {
@@ -179,17 +167,6 @@ public class TorqueAwareFeedbackController : MonoBehaviour
             asinParameter = Mathf.Clamp(asinParameter, -1, 1);
             angle = sign * Mathf.Asin(asinParameter) * Mathf.Rad2Deg;
             angle = Mathf.Clamp(angle, MIN_THETA, MAX_THETA);
-
-            /*Debug.Log("ControllerToAttached= " + controllerToAttached);
-            Debug.Log("Weight= " + objectWeight);
-            Debug.Log("IdealTorque=" + idealTorque);
-            Debug.Log("ProjectedMagnitude= " + projectedMagnitude);
-            Debug.Log("TorqueComponent= " + torqueComponent);
-            Debug.Log("AsinParameter=" + asinParameter);
-            Debug.Log("Angle=" + angle);*/
-
-            /*Debug.DrawLine(controllerCenterOfMass, attachedCenterOfMass);
-            Debug.DrawLine(controllerCenterOfMass, torqueComponent);*/
         }
         else
         {
