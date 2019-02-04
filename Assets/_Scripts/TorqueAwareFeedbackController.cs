@@ -20,10 +20,11 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public const float MAX_THETA = 80;
     public const float MIN_THETA = -80;
     
-    private static readonly float FEEDBACK_SPEED = 0.001f;
+    private static readonly float FEEDBACK_SPEED = 0.0005f;
     private static readonly float FEEDBACK_LENGHT = 1;
     private static readonly float FEEDBACK_MASS = 1;
     private static readonly float GRAVITY = 9.8f;
+    private static readonly float CENTER_OF_MASS_COMPENSATION_FACTOR = 1;
 
     private void Update()
     {
@@ -35,35 +36,64 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         {
             // If there is no controller (device) for the Hand, we take the other one
             hand = (mainHand.controller != null) ? mainHand : mainHand.otherHand;
-            Debug.Log("mainHand.controller=" + mainHand.controller);
-            Debug.Log("mainHand.controller=" + mainHand.otherHand.controller);
         }
     }
 
     // Move feedback to desired location
     private void FixedUpdate()
     {
-        Vector3 x = UnitVector(XYZAxis.X);
-        Vector3 y = UnitVector(XYZAxis.Y);
-        Vector3 z = UnitVector(XYZAxis.Z);
-        
-        // Components of the torque that we are interested. They are the local XYZ axis of the hand
-        Vector3 xComponent = hand.transform.rotation * x;
-        Vector3 zComponent = hand.transform.rotation * z;
+        MoveVirtualFeedback();
+        MoveServos();
+    }
 
-        // Obtain angles to rotate feedback to emulate ideal (virtual) torque
-        float xRotation = CalculateFeedbackAngle(xComponent);
-        float yRotation = 180;
-        float zRotation = CalculateFeedbackAngle(zComponent);
+    /**
+     * Position virtual feedback to mimic ideal torque.
+     * If no object is attached, points in the direction to maintain center of mass
+     */
+    private void MoveVirtualFeedback() {
+        float xRotation = 0, yRotation = 180, zRotation = 0;
+
+        if (ObjectIsAttached()) { // Offset center of mass to cause the ideal torque
+
+            Vector3 x = UnitVector(XYZAxis.X);
+            Vector3 y = UnitVector(XYZAxis.Y);
+            Vector3 z = UnitVector(XYZAxis.Z);
+            
+            // Components of the torque that we are interested. They are the local XYZ axis of the hand
+            Vector3 xComponent = hand.transform.rotation * x;
+            Vector3 zComponent = hand.transform.rotation * z;
+
+            // Obtain angles to rotate feedback to emulate ideal (virtual) torque
+            xRotation = CalculateFeedbackAngle(xComponent);
+            zRotation = CalculateFeedbackAngle(zComponent);
+
+        
+        } else if (hand.controller != null)  { // Move to neutral position (keep center of mass in the center)
+           
+            // Use proportion to complementary angles of controller rotation
+            Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
+            xRotation = - (controllerAngles.x + 50);
+            zRotation = - controllerAngles.z;
+
+            // Debug.Log("controllerAngles: " + controllerAngles);
+        }
 
         // Rotate feedback 
         Vector3 eulerAngles = new Vector3(xRotation, yRotation, zRotation);
         Quaternion desiredRotation = Quaternion.Euler(eulerAngles);
         feedback.rotation = desiredRotation;//Quaternion.Lerp(feedback.rotation, desiredRotation, FEEDBACK_SPEED * Time.time);
 
+        // Debug.Log("x,y,z rotations : " + xRotation + yRotation + zRotation);
+    }
 
-        // Translate feedback pointer position to spherical coordinates transformation for the servos
-
+    /**
+     * Translate feedback pointer position to spherical coordinates transformation for the servos 
+     */
+    private void MoveServos() {
+        Vector3 x = UnitVector(XYZAxis.X);
+        Vector3 y = UnitVector(XYZAxis.Y);
+        Vector3 z = UnitVector(XYZAxis.Z);
+        
         // Obtain vector from base to tip of the pointer and its projection in the XZ plane
         Vector3 pointer = feedbackPointer.position - feedback.position;
         Vector3 pointerXZProj = Vector3.ProjectOnPlane(pointer, y);
@@ -74,19 +104,19 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         float phi = phiSign * Vector3.Angle(y, pointer);
         float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * x, pointerXZProj);
         
-        if (!ObjectIsAttached()) theta = 0;
+        //if (!ObjectIsAttached()) theta = 0;
 
         // Rotate transforms (bound to individual servos) by phi and theta degrees
         Quaternion phiRotation = Quaternion.Euler(new Vector3(0, 0, phi));
         Quaternion thetaRotation = Quaternion.Euler(new Vector3(0, theta, 0));
-        servoPhi.rotation = /*phiRotation;*/ Quaternion.Lerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
-        servoTheta.rotation = /*thetaRotation;*/ Quaternion.Lerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
+        servoPhi.rotation = Quaternion.Slerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
+        servoTheta.rotation = Quaternion.Slerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
 
-        Debug.Log("phi, theta = " + phi + ", " + theta);
-        Debug.Log("quadrant=" + quadrant);  
-        Debug.Log(Vector3.Dot(x, pointerXZProj));
-        Debug.DrawLine(feedback.position, feedback.position + pointer, Color.red);
-        Debug.DrawLine(feedback.position, feedback.position + pointerXZProj, Color.red);
+        // Debug.Log("phi, theta = " + phi + ", " + theta);
+        // Debug.Log("quadrant=" + quadrant);  
+        // Debug.Log(Vector3.Dot(x, pointerXZProj));
+        // Debug.DrawLine(feedback.position, feedback.position + pointer, Color.red);
+        // Debug.DrawLine(feedback.position, feedback.position + pointerXZProj, Color.red);
     }
 
     private int GetXZPlaneQuadrant(Vector3 xzPlaneVector) {
