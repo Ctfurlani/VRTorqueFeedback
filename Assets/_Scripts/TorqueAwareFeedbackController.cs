@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using Valve.VR.InteractionSystem;
 
@@ -73,6 +73,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
             // Use proportion to complementary angles of controller rotation
             Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
             xRotation = - (controllerAngles.x + 50);
+            yRotation = controllerAngles.y + 180;
             zRotation = - controllerAngles.z;
         }
 
