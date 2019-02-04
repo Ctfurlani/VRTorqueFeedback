@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using Valve.VR.InteractionSystem;
 
@@ -20,7 +20,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public const float MAX_THETA = 80;
     public const float MIN_THETA = -80;
     
-    private static readonly float FEEDBACK_SPEED = 0.0005f;
+    private static readonly float FEEDBACK_SPEED = 0.001f;
     private static readonly float FEEDBACK_LENGHT = 1;
     private static readonly float FEEDBACK_MASS = 1;
     private static readonly float GRAVITY = 9.8f;
@@ -96,18 +96,30 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         Vector3 pointerXZProj = Vector3.ProjectOnPlane(pointer, y);
         int quadrant = GetXZPlaneQuadrant(pointerXZProj);
 
-        // Calculate angles of rotation from the y axis (phi) and of rotation in XZ plane (theta)
-        int phiSign = GetPhiSign(pointerXZProj);
-        float phi = phiSign * Vector3.Angle(y, pointer);
+        // Calculate angles of rotation in XZ plane (theta)
         float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * x, pointerXZProj);
 
-        // Rotate transforms (bound to individual servos) by phi and theta degrees
-        Quaternion phiRotation = Quaternion.Euler(new Vector3(0, 0, phi));
+        // Rotate transforms (bound to individual servos) by theta degrees
         Quaternion thetaRotation = Quaternion.Euler(new Vector3(0, theta, 0));
-        servoPhi.rotation = Quaternion.Slerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
-        servoTheta.rotation = Quaternion.Slerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time); 
+        Quaternion thetaSlerpRotation = Quaternion.Slerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time);
+        servoTheta.rotation = thetaSlerpRotation;
+    
+        // Only rotate phi after theta is in correct position
+        if (QuaternionsAreCloseEnough(servoTheta.rotation, thetaSlerpRotation, float.Epsilon)) {
+            
+            // Calculate angles of rotation from the y axis (phi)
+            int phiSign = GetPhiSign(pointerXZProj);
+            float phi = phiSign * Vector3.Angle(y, pointer);
+
+            // Rotate transforms (bound to individual servos) by phi and theta degrees
+            Quaternion phiRotation = Quaternion.Euler(new Vector3(0, 0, phi));
+            servoPhi.rotation = Quaternion.Slerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
+        }
     }
 
+    private bool QuaternionsAreCloseEnough(Quaternion q1, Quaternion q2, float threshold) {
+        return Quaternion.Dot(q1, q2) > 1 - threshold;
+    }
     private int GetXZPlaneQuadrant(Vector3 xzPlaneVector) {
         if (xzPlaneVector.x >= 0) { // quadrant 1 or 4
             return (xzPlaneVector.z >= 0) ? 1 : 4;
