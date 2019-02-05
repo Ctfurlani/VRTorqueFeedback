@@ -13,6 +13,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public Transform servoTheta;
     public Transform feedbackPointer;
     public bool debuggableIn2D;
+    public bool neutralizeCenterOfMass;
 
     private Hand hand;
 
@@ -48,10 +49,11 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
     /**
      * Position virtual feedback to mimic ideal torque.
-     * If no object is attached, points in the direction to maintain center of mass
+     * If no object is attached and "neutralize center of mass"  is true,
+     * points in the direction to maintain center of mass neutral (avoiding creation of torque)
      */
     private void MoveVirtualFeedback() {
-        float xRotation = 0, yRotation = 180, zRotation = 0;
+        float xRotation, yRotation, zRotation;
 
         if (ObjectIsAttached()) { // Offset center of mass to cause the ideal torque
 
@@ -65,16 +67,26 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
             // Obtain angles to rotate feedback to emulate ideal (virtual) torque
             xRotation = CalculateFeedbackAngle(xComponent);
+            yRotation = 180;
             zRotation = CalculateFeedbackAngle(zComponent);
 
         
-        } else if (hand.controller != null)  { // Move to neutral position (keep center of mass in the center)
+        } else  { // No object is attached, so go to neutral position or home position
            
-            // Use proportion to complementary angles of controller rotation
-            Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
-            xRotation = - (controllerAngles.x + 50);
-            yRotation = controllerAngles.y + 180;
-            zRotation = - controllerAngles.z;
+            if (neutralizeCenterOfMass && hand.controller != null) { // Choose neutral position (keep center of mass in the center)
+
+                // Use proportion to complementary angles of controller rotation
+                Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
+                xRotation = - (controllerAngles.x + 50);
+                yRotation = controllerAngles.y + 180;
+                zRotation = - controllerAngles.z;
+            
+            } else { // Choose "home" position
+
+                xRotation = 0;
+                yRotation = 180;
+                zRotation = 0;    
+            }
         }
 
         // Rotate feedback 
@@ -86,40 +98,70 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     /**
      * Translate feedback pointer position to spherical coordinates transformation for the servos 
      */
-    private void MoveServos() {
-        Vector3 x = UnitVector(XYZAxis.X);
-        Vector3 y = UnitVector(XYZAxis.Y);
-        Vector3 z = UnitVector(XYZAxis.Z);
-        
+    private void MoveServos() {        
         // Obtain vector from base to tip of the pointer and its projection in the XZ plane
         Vector3 pointer = feedbackPointer.position - feedback.position;
-        Vector3 pointerXZProj = Vector3.ProjectOnPlane(pointer, y);
-        int quadrant = GetXZPlaneQuadrant(pointerXZProj);
+        Vector3 pointerXZProj = Vector3.ProjectOnPlane(pointer, UnitVector(XYZAxis.Y));
 
-        // Calculate angles of rotation in XZ plane (theta)
-        float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * x, pointerXZProj);
+        if (neutralizeCenterOfMass) {
+            MoveThetaServo(pointerXZProj);
+            MovePhiServo(pointer, pointerXZProj);
+        
+        } else { 
+            // Consider if servos are returning to or leaving "home" position.
+            // If returning to home, move phi first. If leaving home, move theta first
 
-        // Rotate transforms (bound to individual servos) by theta degrees
-        Quaternion thetaRotation = Quaternion.Euler(new Vector3(0, theta, 0));
-        Quaternion thetaSlerpRotation = Quaternion.Slerp(servoTheta.rotation, thetaRotation, FEEDBACK_SPEED * Time.time);
-        servoTheta.rotation = thetaSlerpRotation;
-    
-        // Only rotate phi after theta is in correct position
-        if (QuaternionsAreCloseEnough(servoTheta.rotation, thetaSlerpRotation, float.Epsilon)) {
-            
-            // Calculate angles of rotation from the y axis (phi)
-            int phiSign = GetPhiSign(pointerXZProj);
-            float phi = phiSign * Vector3.Angle(y, pointer);
-
-            // Rotate transforms (bound to individual servos) by phi and theta degrees
-            Quaternion phiRotation = Quaternion.Euler(new Vector3(0, 0, phi));
-            servoPhi.rotation = Quaternion.Slerp(servoPhi.rotation, phiRotation, FEEDBACK_SPEED * Time.time);
+            if (pointer.normalized == new Vector3(0,1,0))  
+                MovePhiThenThetaServos(pointer, pointerXZProj);
+            else 
+                MoveThetaThenPhiServos(pointer, pointerXZProj);
         }
     }
 
-    private bool QuaternionsAreCloseEnough(Quaternion q1, Quaternion q2, float threshold) {
+    private void MoveThetaThenPhiServos(Vector3 pointer, Vector3 pointerXZProj) {
+        Quaternion thetaDesiredRotation = MoveThetaServo(pointerXZProj);
+        
+        if (QuaternionsClose(servoTheta.rotation, thetaDesiredRotation))
+            MovePhiServo(pointer, pointerXZProj);
+    }
+    private void MovePhiThenThetaServos(Vector3 pointer, Vector3 pointerXZProj) {
+        Quaternion phiDesiredRotation = MovePhiServo(pointer, pointerXZProj);
+        
+        if (QuaternionsClose(servoPhi.rotation, phiDesiredRotation))
+            MoveThetaServo(pointerXZProj);
+    }
+
+    private Quaternion MoveThetaServo(Vector3 pointerXZProj) {
+        // Calculate angles of rotation in XZ plane (theta)
+        float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * UnitVector(XYZAxis.X), pointerXZProj);
+
+        // Rotate transforms (bound to individual servos) by theta degrees
+        Quaternion thetaDesiredRotation = Quaternion.Euler(new Vector3(0, theta, 0));
+        servoTheta.rotation = Quaternion.Lerp(servoTheta.rotation, thetaDesiredRotation, FEEDBACK_SPEED * Time.time);
+    
+        return thetaDesiredRotation;
+    }
+
+    private Quaternion MovePhiServo(Vector3 pointer, Vector3 pointerXZProj) {
+        // Calculate angles of rotation from the y axis (phi)
+        int phiSign = GetPhiSign(pointerXZProj);
+        float phi = phiSign * Vector3.Angle(UnitVector(XYZAxis.Y), pointer);
+
+        // Rotate transforms (bound to individual servos) by phi and theta degrees
+        Quaternion phiDesiredRotation = Quaternion.Euler(new Vector3(0, 0, phi));
+        servoPhi.rotation = Quaternion.Lerp(servoPhi.rotation, phiDesiredRotation, FEEDBACK_SPEED * Time.time);
+    
+        return phiDesiredRotation;
+    }
+
+    private bool QuaternionsClose(Quaternion q1, Quaternion q2, float threshold) {
         return Quaternion.Dot(q1, q2) > 1 - threshold;
     }
+
+    private bool QuaternionsClose(Quaternion q1, Quaternion q2) {
+        return QuaternionsClose(q1, q2, 0.005f);
+    }
+
     private int GetXZPlaneQuadrant(Vector3 xzPlaneVector) {
         if (xzPlaneVector.x >= 0) { // quadrant 1 or 4
             return (xzPlaneVector.z >= 0) ? 1 : 4;
