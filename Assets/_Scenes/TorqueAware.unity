@@ -732,8 +732,8 @@ MonoBehaviour:
   servoTheta: {fileID: 1600264278}
   feedbackPointer: {fileID: 1877060133}
   debuggableIn2D: 0
-  rotateThetaAndPhiTogether: 0
-  neutralizeCenterOfMass: 0
+  neutralizeCenterOfMass: 1
+  accountYRotationToNeutral: 0
 --- !u!1 &478600090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,7 +1283,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 768175676}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 5}
+  m_LocalPosition: {x: -3, y: 4, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 404457389}
@@ -1304,7 +1304,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 447954, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2422,8 +2422,8 @@ MonoBehaviour:
   servoTheta: {fileID: 1600264278}
   feedbackPointer: {fileID: 1877060133}
   debuggableIn2D: 1
-  rotateThetaAndPhiTogether: 0
-  neutralizeCenterOfMass: 0
+  neutralizeCenterOfMass: 1
+  accountYRotationToNeutral: 0
 --- !u!1 &1486391949
 GameObject:
   m_ObjectHideFlags: 0
@@ -2912,7 +2912,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1600264275}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 3, y: 4, z: 5}
+  m_LocalPosition: {x: 2, y: 4, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1736643640}

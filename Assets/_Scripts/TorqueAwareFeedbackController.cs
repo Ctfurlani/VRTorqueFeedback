@@ -14,6 +14,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public Transform feedbackPointer;
     public bool debuggableIn2D;
     public bool neutralizeCenterOfMass;
+    public bool accountYRotationToNeutral;
 
     private Hand hand;
 
@@ -53,46 +54,40 @@ public class TorqueAwareFeedbackController : MonoBehaviour
      * points in the direction to maintain center of mass neutral (avoiding creation of torque)
      */
     private void MoveVirtualFeedback() {
-        float xRotation, yRotation, zRotation;
+        Quaternion desiredRotation;
 
         if (ObjectIsAttached()) { // Offset center of mass to cause the ideal torque
-
-            Vector3 x = UnitVector(XYZAxis.X);
-            Vector3 y = UnitVector(XYZAxis.Y);
-            Vector3 z = UnitVector(XYZAxis.Z);
             
             // Components of the torque that we are interested. They are the local XYZ axis of the hand
-            Vector3 xComponent = hand.transform.rotation * x;
-            Vector3 zComponent = hand.transform.rotation * z;
+            Vector3 xComponent = hand.transform.rotation * UnitVector(XYZAxis.X);
+            Vector3 zComponent = hand.transform.rotation * UnitVector(XYZAxis.Z);
 
             // Obtain angles to rotate feedback to emulate ideal (virtual) torque
-            xRotation = CalculateFeedbackAngle(xComponent);
-            yRotation = 180;
-            zRotation = CalculateFeedbackAngle(zComponent);
-
+            float xRotation = CalculateFeedbackAngle(xComponent);
+            float yRotation = 180;
+            float zRotation = CalculateFeedbackAngle(zComponent);
+            
+            desiredRotation = Quaternion.Euler(xRotation, yRotation, zRotation);
         
         } else  { // No object is attached, so go to neutral position or home position
            
             if (neutralizeCenterOfMass && hand.controller != null) { // Choose neutral position (keep center of mass in the center)
 
                 // Use proportion to complementary angles of controller rotation
-                Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
-                xRotation = - (controllerAngles.x + 50);
-                yRotation = controllerAngles.y + 180;
-                zRotation = - controllerAngles.z;
+                // Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
+                // xRotation = - (controllerAngles.x + 50);
+                // yRotation = accountYRotationToNeutral ? controllerAngles.y + 180 : 180;
+                // zRotation = - controllerAngles.z;
+
+                desiredRotation = hand.controller.transform.rot * Quaternion.Euler(50, 0, 0);
             
             } else { // Choose "home" position
-
-                xRotation = 0;
-                yRotation = 180;
-                zRotation = 0;    
+                desiredRotation = Quaternion.Euler(0, 180, 0);   
             }
         }
 
         // Rotate feedback 
-        Vector3 eulerAngles = new Vector3(xRotation, yRotation, zRotation);
-        Quaternion desiredRotation = Quaternion.Euler(eulerAngles);
-        feedback.rotation = desiredRotation;
+        feedback.rotation = Quaternion.Slerp(feedback.rotation, desiredRotation, 1 * FEEDBACK_SPEED * Time.time);
     }
 
     /**
