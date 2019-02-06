@@ -27,7 +27,9 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     private static readonly float FEEDBACK_MASS = 1;
     private static readonly float GRAVITY = 9.8f;
     private static readonly float CENTER_OF_MASS_COMPENSATION_FACTOR = 1;
-
+    private static readonly float NEUTRAL_CENTER_OF_MASS_X_BIAS = 70;
+    private static readonly float NEUTRAL_CENTER_OF_MASS_Y_BIAS = 20;
+                
     private void Update()
     {
         if (debuggableIn2D)
@@ -73,13 +75,10 @@ public class TorqueAwareFeedbackController : MonoBehaviour
            
             if (neutralizeCenterOfMass && hand.controller != null) { // Choose neutral position (keep center of mass in the center)
 
-                // Use proportion to complementary angles of controller rotation
-                // Vector3 controllerAngles = hand.controller.transform.rot.eulerAngles;
-                // xRotation = - (controllerAngles.x + 50);
-                // yRotation = accountYRotationToNeutral ? controllerAngles.y + 180 : 180;
-                // zRotation = - controllerAngles.z;
-
-                desiredRotation = hand.controller.transform.rot * Quaternion.Euler(50, 0, 0);
+                // From the controller rotation, X bias (quaternion multiplication)
+                desiredRotation = hand.controller.transform.rot * Quaternion.Euler(NEUTRAL_CENTER_OF_MASS_X_BIAS, 0, 0);
+                // Now set Y to a constant (180, which is home, + Y bias) and negate X and Z angles (so feedback moves against hand rotation)
+                desiredRotation = Quaternion.Euler(-desiredRotation.eulerAngles.x, 180 + NEUTRAL_CENTER_OF_MASS_Y_BIAS, -desiredRotation.eulerAngles.z);
             
             } else { // Choose "home" position
                 desiredRotation = Quaternion.Euler(0, 180, 0);   
