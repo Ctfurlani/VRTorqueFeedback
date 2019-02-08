@@ -1108,8 +1108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowRect:
     serializedVersion: 2
-    x: 489
-    y: 205
+    x: 464
+    y: 188
     width: 151
     height: 115
   nodes:
@@ -1120,8 +1120,8 @@ MonoBehaviour:
     tooltip: Reacting Target
     rect:
       serializedVersion: 2
-      x: 489
-      y: 225
+      x: 464
+      y: 208
       width: 151
       height: 18
     updated: 1
@@ -1132,8 +1132,8 @@ MonoBehaviour:
     tooltip: Input<float>
     rect:
       serializedVersion: 2
-      x: 489
-      y: 243
+      x: 464
+      y: 226
       width: 151
       height: 18
     updated: 1
@@ -1144,8 +1144,8 @@ MonoBehaviour:
     tooltip: Output<float>
     rect:
       serializedVersion: 2
-      x: 489
-      y: 261
+      x: 464
+      y: 244
       width: 151
       height: 18
     updated: 1
@@ -1156,8 +1156,8 @@ MonoBehaviour:
     tooltip: Input<DragData>
     rect:
       serializedVersion: 2
-      x: 489
-      y: 279
+      x: 464
+      y: 262
       width: 151
       height: 18
     updated: 1
@@ -1168,8 +1168,8 @@ MonoBehaviour:
     tooltip: RotationAxisReactor
     rect:
       serializedVersion: 2
-      x: 489
-      y: 297
+      x: 464
+      y: 280
       width: 151
       height: 18
     updated: 1
@@ -2454,8 +2454,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowRect:
     serializedVersion: 2
-    x: 146
-    y: 31
+    x: 153
+    y: 126
     width: 126
     height: 79
   nodes:
@@ -2466,8 +2466,8 @@ MonoBehaviour:
     tooltip: Arduino Stream Class
     rect:
       serializedVersion: 2
-      x: 146
-      y: 51
+      x: 153
+      y: 146
       width: 126
       height: 18
     updated: 1
@@ -2478,8 +2478,8 @@ MonoBehaviour:
     tooltip: CommSocket
     rect:
       serializedVersion: 2
-      x: 146
-      y: 69
+      x: 153
+      y: 164
       width: 126
       height: 18
     updated: 1
@@ -2490,8 +2490,8 @@ MonoBehaviour:
     tooltip: ArdunityApp
     rect:
       serializedVersion: 2
-      x: 146
-      y: 87
+      x: 153
+      y: 182
       width: 126
       height: 18
     updated: 1
@@ -2543,8 +2543,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowRect:
     serializedVersion: 2
-    x: 6
-    y: 29
+    x: 18
+    y: 126
     width: 113
     height: 79
   nodes:
@@ -2555,8 +2555,8 @@ MonoBehaviour:
     tooltip: Serial Baudrate Speed
     rect:
       serializedVersion: 2
-      x: 6
-      y: 49
+      x: 18
+      y: 146
       width: 113
       height: 18
     updated: 1
@@ -2567,8 +2567,8 @@ MonoBehaviour:
     tooltip: CommSocket
     rect:
       serializedVersion: 2
-      x: 6
-      y: 67
+      x: 18
+      y: 164
       width: 113
       height: 18
     updated: 1
@@ -2579,8 +2579,8 @@ MonoBehaviour:
     tooltip: CommSerial
     rect:
       serializedVersion: 2
-      x: 6
-      y: 85
+      x: 18
+      y: 182
       width: 113
       height: 18
     updated: 1
@@ -2837,8 +2837,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowRect:
     serializedVersion: 2
-    x: 488
-    y: 23
+    x: 462
+    y: 15
     width: 151
     height: 115
   nodes:
@@ -2849,8 +2849,8 @@ MonoBehaviour:
     tooltip: Reacting Target
     rect:
       serializedVersion: 2
-      x: 488
-      y: 43
+      x: 462
+      y: 35
       width: 151
       height: 18
     updated: 1
@@ -2861,8 +2861,8 @@ MonoBehaviour:
     tooltip: Input<float>
     rect:
       serializedVersion: 2
-      x: 488
-      y: 61
+      x: 462
+      y: 53
       width: 151
       height: 18
     updated: 1
@@ -2873,8 +2873,8 @@ MonoBehaviour:
     tooltip: Output<float>
     rect:
       serializedVersion: 2
-      x: 488
-      y: 79
+      x: 462
+      y: 71
       width: 151
       height: 18
     updated: 1
@@ -2885,8 +2885,8 @@ MonoBehaviour:
     tooltip: Input<DragData>
     rect:
       serializedVersion: 2
-      x: 488
-      y: 97
+      x: 462
+      y: 89
       width: 151
       height: 18
     updated: 1
@@ -2897,8 +2897,8 @@ MonoBehaviour:
     tooltip: RotationAxisReactor
     rect:
       serializedVersion: 2
-      x: 488
-      y: 115
+      x: 462
+      y: 107
       width: 151
       height: 18
     updated: 1
