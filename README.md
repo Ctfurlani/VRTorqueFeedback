@@ -33,4 +33,4 @@ The angles alpha and gamma are not the ones to be used by the servo motors. This
 Movement of the servo motors is coordinated by the ARDUnity plugin. With its "wire editor", we create a serial communication bridge between Unity and an arduino. The serial communication transmits data to coordinate two servos (represented by two "Generic Servo" components), which get the desired angle of rotation from a direct mapping of the rotation of a virtual object (with the components/scripts "Rotation Axis Reactor"). With this setup, to achieve rotations by X degrees in a servo, we simply rotate a linked virtual object by X degrees in a set direction. In our scene, these objects are the "Mirror Servo Theta" and "Mirror Servo Phi".
 
 <img src="Doc/ardunity.jpg" height=200px>
-<img src="Doc/mirror_servos.jpg" height=200px>
+<img src="Doc/mirror_servos_with_theta_phi.jpg" height=200px>
