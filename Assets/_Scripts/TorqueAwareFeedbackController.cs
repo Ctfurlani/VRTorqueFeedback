@@ -11,10 +11,12 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public Transform feedbackPointer;
     public bool debuggableIn2D;
     public bool neutralizeCenterOfMass;
+    public bool moveServosTogether;
     public float maxAngle = 80;
     public float minAngle = -80;
 
     private Hand _hand;
+    private FsmState _fsmState = FsmState.ToHome;
 
     private const float FeedbackSpeed = 0.001f;
     private const float FeedbackLength = 1;
@@ -119,62 +121,169 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         Vector3 pointer = feedbackPointer.position - feedback.position;
         Vector3 pointerXZProj = Vector3.ProjectOnPlane(pointer, UnitVector(XYZAxis.Y));
 
-        if (neutralizeCenterOfMass)
+        Quaternion thetaDesiredRotation = ThetaDesiredRotation(pointerXZProj);
+        Quaternion phiDesiredRotation = PhiDesiredRotation(pointer, pointerXZProj);
+
+        if (moveServosTogether)
         {
-            MoveThetaServo(pointerXZProj);
-            MovePhiServo(pointer, pointerXZProj);
+            MoveServosTogether(thetaDesiredRotation, phiDesiredRotation);
         }
         else
         {
-            // Consider if servos are returning to or leaving "home" position.
-            // If returning to home, move phi first. If leaving home, move theta first
-
-            if (pointer.normalized == new Vector3(0, 1, 0))
-                MovePhiThenThetaServos(pointer, pointerXZProj);
-            else
-                MoveThetaThenPhiServos(pointer, pointerXZProj);
+            if (neutralizeCenterOfMass) NeutralRotationFsm(thetaDesiredRotation, phiDesiredRotation);
+            else HomeRotationFsm(thetaDesiredRotation, phiDesiredRotation);
         }
     }
 
-    private void MoveThetaThenPhiServos(Vector3 pointer, Vector3 pointerXZProj)
+    private void MoveServosTogether(Quaternion thetaDesiredRotation, Quaternion phiDesiredRotation)
     {
-        Quaternion thetaDesiredRotation = MoveThetaServo(pointerXZProj);
-
-        if (QuaternionsClose(servoTheta.rotation, thetaDesiredRotation))
-            MovePhiServo(pointer, pointerXZProj);
+        MoveThetaServo(thetaDesiredRotation);
+        MovePhiServo(phiDesiredRotation);
     }
 
-    private void MovePhiThenThetaServos(Vector3 pointer, Vector3 pointerXZProj)
+    private void HomeRotationFsm(Quaternion thetaDesiredRotation, Quaternion phiDesiredRotation)
     {
-        Quaternion phiDesiredRotation = MovePhiServo(pointer, pointerXZProj);
+        switch (_fsmState)
+        {
+            case FsmState.ToHome:
+                if (servoPhi.rotation == HomeRotation())
+                {
+                    _fsmState = FsmState.AtHome;
+                }
+                else
+                {
+                    MovePhiServo(HomeRotation());
+                }
 
-        if (QuaternionsClose(servoPhi.rotation, phiDesiredRotation))
-            MoveThetaServo(pointerXZProj);
+                break;
+
+            case FsmState.AtHome:
+                if (ObjectIsAttached()) _fsmState = FsmState.ToTorque;
+                break;
+
+            case FsmState.ToTorque:
+                if (ObjectIsAttached())
+                {
+                    MoveThetaThenPhiServos(thetaDesiredRotation, phiDesiredRotation);
+                }
+                else
+                {
+                    _fsmState = FsmState.ToHome;
+                }
+
+                break;
+        }
     }
 
-    private Quaternion MoveThetaServo(Vector3 pointerXZProj)
+    private void NeutralRotationFsm(Quaternion thetaDesiredRotation, Quaternion phiDesiredRotation)
+    {
+        switch (_fsmState)
+        {
+            case FsmState.ToHome:
+                if (servoPhi.rotation == HomeRotation())
+                {
+                    _fsmState = FsmState.AtHome;
+                }
+                else
+                {
+                    MovePhiServo(HomeRotation());
+                }
+
+                break;
+
+            case FsmState.AtHome:
+                _fsmState = ObjectIsAttached() ? FsmState.ToTorque : FsmState.ToNeutral;
+                break;
+
+            case FsmState.ToTorque:
+                if (ObjectIsAttached())
+                {
+                    MoveThetaThenPhiServos(thetaDesiredRotation, phiDesiredRotation);
+                }
+                else
+                {
+                    _fsmState = FsmState.ToHome;
+                }
+
+                break;
+
+            case FsmState.ToNeutral:
+                if (ObjectIsAttached())
+                {
+                    _fsmState = FsmState.ToHome;
+                }
+                else if (QuaternionsClose(servoTheta.rotation, thetaDesiredRotation) &&
+                         QuaternionsClose(servoPhi.rotation, phiDesiredRotation))
+                {
+                    _fsmState = FsmState.AtNeutral;
+                }
+                else
+                {
+                    MoveThetaThenPhiServos(thetaDesiredRotation, phiDesiredRotation);
+                }
+
+                break;
+
+            case FsmState.AtNeutral:
+                if (ObjectIsAttached())
+                {
+                    _fsmState = FsmState.ToHome;
+                }
+                else
+                {
+                    MoveThetaServo(thetaDesiredRotation);
+                    MovePhiServo(phiDesiredRotation);
+                }
+
+                break;
+        }
+    }
+
+    private void MoveThetaThenPhiServos(Quaternion thetaDesiredRotation, Quaternion phiDesiredRotation)
+    {
+        if (servoTheta.rotation == thetaDesiredRotation)
+            MovePhiServo(phiDesiredRotation);
+        else MoveThetaServo(thetaDesiredRotation);
+    }
+
+    private void MovePhiThenThetaServos(Quaternion thetaDesiredRotation, Quaternion phiDesiredRotation)
+    {
+        if (servoPhi.rotation == phiDesiredRotation)
+            MoveThetaServo(thetaDesiredRotation);
+        else MovePhiServo(phiDesiredRotation);
+    }
+
+    private Quaternion ThetaDesiredRotation(Vector3 pointerXZProj)
     {
         // Calculate angles of rotation in XZ plane (theta)
         float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * UnitVector(XYZAxis.X), pointerXZProj);
 
         // Rotate transforms (bound to individual servos) by theta degrees
-        Quaternion thetaDesiredRotation = Quaternion.Euler(new Vector3(0, theta, 0));
-        servoTheta.rotation = Quaternion.Lerp(servoTheta.rotation, thetaDesiredRotation, FeedbackSpeed * Time.time);
-
-        return thetaDesiredRotation;
+        return Quaternion.Euler(new Vector3(0, theta, 0));
     }
 
-    private Quaternion MovePhiServo(Vector3 pointer, Vector3 pointerXZProj)
+    private Quaternion PhiDesiredRotation(Vector3 pointer, Vector3 pointerXZProj)
     {
         // Calculate angles of rotation from the y axis (phi)
         int phiSign = GetPhiSign(pointerXZProj);
         float phi = phiSign * Vector3.Angle(UnitVector(XYZAxis.Y), pointer);
 
         // Rotate transforms (bound to individual servos) by phi and theta degrees
-        Quaternion phiDesiredRotation = Quaternion.Euler(new Vector3(0, 0, phi));
-        servoPhi.rotation = Quaternion.Lerp(servoPhi.rotation, phiDesiredRotation, FeedbackSpeed * Time.time);
+        return Quaternion.Euler(new Vector3(0, 0, phi));
+    }
 
-        return phiDesiredRotation;
+    private void MoveThetaServo(Quaternion desiredRotation)
+    {
+        servoTheta.rotation = QuaternionsClose(servoTheta.rotation, desiredRotation)
+            ? desiredRotation
+            : Quaternion.Lerp(servoTheta.rotation, desiredRotation, FeedbackSpeed * Time.time);
+    }
+
+    private void MovePhiServo(Quaternion desiredRotation)
+    {
+        servoPhi.rotation = QuaternionsClose(servoPhi.rotation, desiredRotation)
+            ? desiredRotation
+            : Quaternion.Lerp(servoPhi.rotation, desiredRotation, FeedbackSpeed * Time.time);
     }
 
     private bool QuaternionsClose(Quaternion q1, Quaternion q2, float threshold)
@@ -277,4 +386,13 @@ public enum XYZAxis
     X,
     Y,
     Z
+}
+
+public enum FsmState
+{
+    ToHome,
+    ToTorque,
+    AtHome,
+    ToNeutral,
+    AtNeutral
 }
