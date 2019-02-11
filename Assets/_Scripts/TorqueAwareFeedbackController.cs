@@ -93,7 +93,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     /**
      * Rotation that positions feedback absolutely "upwards"
      */
-    private Quaternion HomeRotation()
+    private static Quaternion HomeRotation()
     {
         return Quaternion.Euler(0, 180, 0);
     }
