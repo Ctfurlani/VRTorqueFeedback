@@ -48,19 +48,22 @@ public class TorqueAwareFeedbackController : MonoBehaviour
      * If no object is attached and "neutralize center of mass"  is true,
      * points in the direction to maintain center of mass neutral (avoiding creation of torque)
      */
-    private void MoveVirtualFeedback() {
+    private void MoveVirtualFeedback()
+    {
         Quaternion desiredRotation;
 
-        if (ObjectIsAttached()) { 
+        if (ObjectIsAttached())
+        {
             desiredRotation = AttachedObjectTorqueRotation();
-
-        } else  {
-
-            if (neutralizeCenterOfMass && _hand.controller != null) { 
-
+        }
+        else
+        {
+            if (neutralizeCenterOfMass && _hand.controller != null)
+            {
                 desiredRotation = NeutralCenterOfMassRotation();
-
-            } else {
+            }
+            else
+            {
                 desiredRotation = HomeRotation();
             }
         }
@@ -72,7 +75,8 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     /**
      * Rotation that offsets center of mass to cause the ideal torque
      */
-    private Quaternion AttachedObjectTorqueRotation() {
+    private Quaternion AttachedObjectTorqueRotation()
+    {
         // Components of the torque that we are interested. They are the local XYZ axis of the hand
         var handRotation = _hand.transform.rotation;
         Vector3 xComponent = handRotation * UnitVector(XYZAxis.X);
@@ -89,14 +93,16 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     /**
      * Rotation that positions feedback absolutely "upwards"
      */
-    private Quaternion HomeRotation() {
+    private Quaternion HomeRotation()
+    {
         return Quaternion.Euler(0, 180, 0);
     }
 
     /**
      * Rotation that positions feedback in order to minimize torque on hand 
      */
-    private Quaternion NeutralCenterOfMassRotation() {
+    private Quaternion NeutralCenterOfMassRotation()
+    {
         // From the controller rotation, X bias (quaternion multiplication)
         Quaternion rotation = _hand.controller.transform.rot * Quaternion.Euler(NeutralCenterOfMassXBias, 0, 0);
         // Now set Y to a constant (180, which is home, + Y bias) and negate X and Z angles (so feedback moves against hand rotation)
@@ -107,40 +113,47 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     /**
      * Translate feedback pointer position to spherical coordinates transformation for the servos
      */
-    private void MoveServos() {
+    private void MoveServos()
+    {
         // Obtain vector from base to tip of the pointer and its projection in the XZ plane
         Vector3 pointer = feedbackPointer.position - feedback.position;
         Vector3 pointerXZProj = Vector3.ProjectOnPlane(pointer, UnitVector(XYZAxis.Y));
 
-        if (neutralizeCenterOfMass) {
+        if (neutralizeCenterOfMass)
+        {
             MoveThetaServo(pointerXZProj);
             MovePhiServo(pointer, pointerXZProj);
-
-        } else {
+        }
+        else
+        {
             // Consider if servos are returning to or leaving "home" position.
             // If returning to home, move phi first. If leaving home, move theta first
 
-            if (pointer.normalized == new Vector3(0,1,0))
+            if (pointer.normalized == new Vector3(0, 1, 0))
                 MovePhiThenThetaServos(pointer, pointerXZProj);
             else
                 MoveThetaThenPhiServos(pointer, pointerXZProj);
         }
     }
 
-    private void MoveThetaThenPhiServos(Vector3 pointer, Vector3 pointerXZProj) {
+    private void MoveThetaThenPhiServos(Vector3 pointer, Vector3 pointerXZProj)
+    {
         Quaternion thetaDesiredRotation = MoveThetaServo(pointerXZProj);
 
         if (QuaternionsClose(servoTheta.rotation, thetaDesiredRotation))
             MovePhiServo(pointer, pointerXZProj);
     }
-    private void MovePhiThenThetaServos(Vector3 pointer, Vector3 pointerXZProj) {
+
+    private void MovePhiThenThetaServos(Vector3 pointer, Vector3 pointerXZProj)
+    {
         Quaternion phiDesiredRotation = MovePhiServo(pointer, pointerXZProj);
 
         if (QuaternionsClose(servoPhi.rotation, phiDesiredRotation))
             MoveThetaServo(pointerXZProj);
     }
 
-    private Quaternion MoveThetaServo(Vector3 pointerXZProj) {
+    private Quaternion MoveThetaServo(Vector3 pointerXZProj)
+    {
         // Calculate angles of rotation in XZ plane (theta)
         float theta = Vector3.Angle(GetThetaXAxisReferenceSign(pointerXZProj) * UnitVector(XYZAxis.X), pointerXZProj);
 
@@ -151,7 +164,8 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         return thetaDesiredRotation;
     }
 
-    private Quaternion MovePhiServo(Vector3 pointer, Vector3 pointerXZProj) {
+    private Quaternion MovePhiServo(Vector3 pointer, Vector3 pointerXZProj)
+    {
         // Calculate angles of rotation from the y axis (phi)
         int phiSign = GetPhiSign(pointerXZProj);
         float phi = phiSign * Vector3.Angle(UnitVector(XYZAxis.Y), pointer);
@@ -163,28 +177,39 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         return phiDesiredRotation;
     }
 
-    private bool QuaternionsClose(Quaternion q1, Quaternion q2, float threshold) {
+    private bool QuaternionsClose(Quaternion q1, Quaternion q2, float threshold)
+    {
         return Quaternion.Dot(q1, q2) > 1 - threshold;
     }
 
-    private bool QuaternionsClose(Quaternion q1, Quaternion q2) {
+    private bool QuaternionsClose(Quaternion q1, Quaternion q2)
+    {
         return QuaternionsClose(q1, q2, 0.005f);
     }
 
-    private int GetXZPlaneQuadrant(Vector3 xzPlaneVector) {
-        if (xzPlaneVector.x >= 0) { // quadrant 1 or 4
+    private int GetXZPlaneQuadrant(Vector3 xzPlaneVector)
+    {
+        if (xzPlaneVector.x >= 0)
+        {
+            // quadrant 1 or 4
             return (xzPlaneVector.z >= 0) ? 1 : 4;
-        } else { // quadrant 2 or 3
+        }
+        else
+        {
+            // quadrant 2 or 3
             return (xzPlaneVector.z >= 0) ? 2 : 3;
         }
     }
-    
-    private int GetPhiSign(Vector3 pointerXZProj) {
+
+    private int GetPhiSign(Vector3 pointerXZProj)
+    {
         int quadrant = GetXZPlaneQuadrant(pointerXZProj);
 
         return (quadrant == 1 || quadrant == 2) ? -1 : 1;
     }
-    private int GetThetaXAxisReferenceSign(Vector3 pointerXZProj) {
+
+    private int GetThetaXAxisReferenceSign(Vector3 pointerXZProj)
+    {
         int quadrant = GetXZPlaneQuadrant(pointerXZProj);
 
         return (quadrant == 1 || quadrant == 2) ? -1 : 1;
@@ -247,4 +272,9 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     }
 }
 
-public enum XYZAxis {  X , Y , Z }
+public enum XYZAxis
+{
+    X,
+    Y,
+    Z
+}
