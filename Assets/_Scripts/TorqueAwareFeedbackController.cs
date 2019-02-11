@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using Valve.VR.InteractionSystem;
-
-public enum XYZAxis {  X , Y , Z }
 
 public class TorqueAwareFeedbackController : MonoBehaviour
 {
@@ -14,32 +11,28 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public Transform feedbackPointer;
     public bool debuggableIn2D;
     public bool neutralizeCenterOfMass;
-    public bool accountYRotationToNeutral;
+    public float maxAngle = 80;
+    public float minAngle = -80;
 
-    private Hand hand;
+    private Hand _hand;
 
-    // Range of achievable angles (can be overriden in editor)
-    public const float MAX_THETA = 80;
-    public const float MIN_THETA = -80;
-
-    private static readonly float FEEDBACK_SPEED = 0.001f;
-    private static readonly float FEEDBACK_LENGHT = 1;
-    private static readonly float FEEDBACK_MASS = 1;
-    private static readonly float GRAVITY = 9.8f;
-    private static readonly float CENTER_OF_MASS_COMPENSATION_FACTOR = 1;
-    private static readonly float NEUTRAL_CENTER_OF_MASS_X_BIAS = 70;
-    private static readonly float NEUTRAL_CENTER_OF_MASS_Y_BIAS = 20;
+    private const float FeedbackSpeed = 0.001f;
+    private const float FeedbackLength = 1;
+    private const float FeedbackMass = 1;
+    private const float Gravity = 9.8f;
+    private const float NeutralCenterOfMassXBias = 70;
+    private const float NeutralCenterOfMassYBias = 20;
 
     private void Update()
     {
         if (debuggableIn2D)
         {
-            hand = mainHand;
+            _hand = mainHand;
         }
         else
         {
             // If there is no controller (device) for the Hand, we take the other one
-            hand = (mainHand.controller != null) ? mainHand : mainHand.otherHand;
+            _hand = mainHand.controller != null ? mainHand : mainHand.otherHand;
         }
     }
 
@@ -58,35 +51,57 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     private void MoveVirtualFeedback() {
         Quaternion desiredRotation;
 
-        if (ObjectIsAttached()) { // Offset center of mass to cause the ideal torque
+        if (ObjectIsAttached()) { 
+            desiredRotation = AttachedObjectTorqueRotation();
 
-            // Components of the torque that we are interested. They are the local XYZ axis of the hand
-            Vector3 xComponent = hand.transform.rotation * UnitVector(XYZAxis.X);
-            Vector3 zComponent = hand.transform.rotation * UnitVector(XYZAxis.Z);
+        } else  {
 
-            // Obtain angles to rotate feedback to emulate ideal (virtual) torque
-            float xRotation = CalculateFeedbackAngle(xComponent);
-            float yRotation = 180;
-            float zRotation = CalculateFeedbackAngle(zComponent);
+            if (neutralizeCenterOfMass && _hand.controller != null) { 
 
-            desiredRotation = Quaternion.Euler(xRotation, yRotation, zRotation);
+                desiredRotation = NeutralCenterOfMassRotation();
 
-        } else  { // No object is attached, so go to neutral position or home position
-
-            if (neutralizeCenterOfMass && hand.controller != null) { // Choose neutral position (keep center of mass in the center)
-
-                // From the controller rotation, X bias (quaternion multiplication)
-                desiredRotation = hand.controller.transform.rot * Quaternion.Euler(NEUTRAL_CENTER_OF_MASS_X_BIAS, 0, 0);
-                // Now set Y to a constant (180, which is home, + Y bias) and negate X and Z angles (so feedback moves against hand rotation)
-                desiredRotation = Quaternion.Euler(-desiredRotation.eulerAngles.x, 180 + NEUTRAL_CENTER_OF_MASS_Y_BIAS, -desiredRotation.eulerAngles.z);
-
-            } else { // Choose "home" position
-                desiredRotation = Quaternion.Euler(0, 180, 0);
+            } else {
+                desiredRotation = HomeRotation();
             }
         }
 
         // Rotate feedback
-        feedback.rotation = Quaternion.Slerp(feedback.rotation, desiredRotation, 1 * FEEDBACK_SPEED * Time.time);
+        feedback.rotation = Quaternion.Slerp(feedback.rotation, desiredRotation, 1 * FeedbackSpeed * Time.time);
+    }
+
+    /**
+     * Rotation that offsets center of mass to cause the ideal torque
+     */
+    private Quaternion AttachedObjectTorqueRotation() {
+        // Components of the torque that we are interested. They are the local XYZ axis of the hand
+        var handRotation = _hand.transform.rotation;
+        Vector3 xComponent = handRotation * UnitVector(XYZAxis.X);
+        Vector3 zComponent = handRotation * UnitVector(XYZAxis.Z);
+
+        // Obtain angles to rotate feedback to emulate ideal (virtual) torque
+        float xRotation = CalculateFeedbackAngle(xComponent);
+        float yRotation = 180;
+        float zRotation = CalculateFeedbackAngle(zComponent);
+
+        return Quaternion.Euler(xRotation, yRotation, zRotation);
+    }
+
+    /**
+     * Rotation that positions feedback absolutely "upwards"
+     */
+    private Quaternion HomeRotation() {
+        return Quaternion.Euler(0, 180, 0);
+    }
+
+    /**
+     * Rotation that positions feedback in order to minimize torque on hand 
+     */
+    private Quaternion NeutralCenterOfMassRotation() {
+        // From the controller rotation, X bias (quaternion multiplication)
+        Quaternion rotation = _hand.controller.transform.rot * Quaternion.Euler(NeutralCenterOfMassXBias, 0, 0);
+        // Now set Y to a constant (180, which is home, + Y bias) and negate X and Z angles (so feedback moves against hand rotation)
+        rotation = Quaternion.Euler(-rotation.eulerAngles.x, 180 + NeutralCenterOfMassYBias, -rotation.eulerAngles.z);
+        return rotation;
     }
 
     /**
@@ -131,7 +146,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
         // Rotate transforms (bound to individual servos) by theta degrees
         Quaternion thetaDesiredRotation = Quaternion.Euler(new Vector3(0, theta, 0));
-        servoTheta.rotation = Quaternion.Lerp(servoTheta.rotation, thetaDesiredRotation, FEEDBACK_SPEED * Time.time);
+        servoTheta.rotation = Quaternion.Lerp(servoTheta.rotation, thetaDesiredRotation, FeedbackSpeed * Time.time);
 
         return thetaDesiredRotation;
     }
@@ -143,7 +158,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
         // Rotate transforms (bound to individual servos) by phi and theta degrees
         Quaternion phiDesiredRotation = Quaternion.Euler(new Vector3(0, 0, phi));
-        servoPhi.rotation = Quaternion.Lerp(servoPhi.rotation, phiDesiredRotation, FEEDBACK_SPEED * Time.time);
+        servoPhi.rotation = Quaternion.Lerp(servoPhi.rotation, phiDesiredRotation, FeedbackSpeed * Time.time);
 
         return phiDesiredRotation;
     }
@@ -194,10 +209,10 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         // Only update angle if a new object is attached
         if (ObjectIsAttached())
         {
-            GameObject attachedObject = hand.currentAttachedObject;
+            GameObject attachedObject = _hand.currentAttachedObject;
 
             // Find vector R (distance from controller to weight vector)
-            Vector3 controllerCenterOfMass = hand.GetComponent<Transform>().position;
+            Vector3 controllerCenterOfMass = _hand.GetComponent<Transform>().position;
             Vector3 attachedCenterOfMass = attachedObject.GetComponent<Transform>().position;
             Vector3 controllerToAttached = attachedCenterOfMass - controllerCenterOfMass;
 
@@ -213,10 +228,10 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
             // Calculate angle the feedback should move to
             float sign = (projectedMagnitude > 0) ? 1 : -1;
-            float asinParameter = torqueComponent.magnitude / (FEEDBACK_LENGHT * FEEDBACK_MASS * GRAVITY);
+            float asinParameter = torqueComponent.magnitude / (FeedbackLength * FeedbackMass * Gravity);
             asinParameter = Mathf.Clamp(asinParameter, -1, 1);
             angle = sign * Mathf.Asin(asinParameter) * Mathf.Rad2Deg;
-            angle = Mathf.Clamp(angle, MIN_THETA, MAX_THETA);
+            angle = Mathf.Clamp(angle, minAngle, maxAngle);
         }
         else
         {
@@ -228,6 +243,8 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
     private bool ObjectIsAttached()
     {
-        return hand.currentAttachedObject && hand.currentAttachedObject.CompareTag("Interactable");
+        return _hand.currentAttachedObject && _hand.currentAttachedObject.CompareTag("Interactable");
     }
 }
+
+public enum XYZAxis {  X , Y , Z }
