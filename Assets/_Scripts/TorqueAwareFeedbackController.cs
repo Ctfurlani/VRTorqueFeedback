@@ -16,7 +16,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     public float minAngle = -80;
 
     private Hand _hand;
-    private FsmState _fsmState = FsmState.ToHome;
+    private FsmState _fsmState;
 
     private const float FeedbackSpeed = 0.001f;
     private const float FeedbackLength = 1;
@@ -25,6 +25,9 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     private const float NeutralCenterOfMassXBias = 70;
     private const float NeutralCenterOfMassYBias = 20;
 
+    private void Start() {
+        _fsmState = FsmState.ToHome;
+    }
     private void Update()
     {
         if (debuggableIn2D)
@@ -113,6 +116,14 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     }
 
     /**
+     * Rotation that positions phi servo absolutely "upwards"
+     */
+    private static Quaternion PhiHomeRotation()
+    {
+        return Quaternion.Euler(0, 0, 0);
+    }
+
+    /**
      * Translate feedback pointer position to spherical coordinates transformation for the servos
      */
     private void MoveServos()
@@ -146,13 +157,13 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         switch (_fsmState)
         {
             case FsmState.ToHome:
-                if (servoPhi.rotation == HomeRotation())
+                if (servoPhi.rotation == PhiHomeRotation())
                 {
                     _fsmState = FsmState.AtHome;
                 }
                 else
                 {
-                    MovePhiServo(HomeRotation());
+                    MovePhiServo(PhiHomeRotation());
                 }
 
                 break;
@@ -180,13 +191,13 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         switch (_fsmState)
         {
             case FsmState.ToHome:
-                if (servoPhi.rotation == HomeRotation())
+                if (servoPhi.rotation == PhiHomeRotation())
                 {
                     _fsmState = FsmState.AtHome;
                 }
                 else
                 {
-                    MovePhiServo(HomeRotation());
+                    MovePhiServo(PhiHomeRotation());
                 }
 
                 break;
@@ -293,7 +304,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
     private bool QuaternionsClose(Quaternion q1, Quaternion q2)
     {
-        return QuaternionsClose(q1, q2, 0.005f);
+        return QuaternionsClose(q1, q2, 0.0001f);
     }
 
     private int GetXZPlaneQuadrant(Vector3 xzPlaneVector)

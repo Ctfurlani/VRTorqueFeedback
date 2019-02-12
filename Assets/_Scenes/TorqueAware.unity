@@ -732,8 +732,10 @@ MonoBehaviour:
   servoTheta: {fileID: 1600264278}
   feedbackPointer: {fileID: 1877060133}
   debuggableIn2D: 0
-  neutralizeCenterOfMass: 1
-  accountYRotationToNeutral: 0
+  neutralizeCenterOfMass: 0
+  moveServosTogether: 1
+  maxAngle: 80
+  minAngle: -80
 --- !u!1 &478600090
 GameObject:
   m_ObjectHideFlags: 0
@@ -2422,8 +2424,10 @@ MonoBehaviour:
   servoTheta: {fileID: 1600264278}
   feedbackPointer: {fileID: 1877060133}
   debuggableIn2D: 1
-  neutralizeCenterOfMass: 1
-  accountYRotationToNeutral: 0
+  neutralizeCenterOfMass: 0
+  moveServosTogether: 1
+  maxAngle: 80
+  minAngle: -80
 --- !u!1 &1486391949
 GameObject:
   m_ObjectHideFlags: 0
