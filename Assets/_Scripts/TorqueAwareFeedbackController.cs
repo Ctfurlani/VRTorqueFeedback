@@ -18,7 +18,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     private Hand _hand;
     private FsmState _fsmState;
 
-    private const float FeedbackSpeed = 0.001f;
+    private const float FeedbackSpeed = 0.1f;
     private const float FeedbackLength = 1;
     private const float FeedbackMass = 1;
     private const float Gravity = 9.8f;
@@ -74,7 +74,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         }
 
         // Rotate feedback
-        feedback.rotation = Quaternion.Slerp(feedback.rotation, desiredRotation, 1 * FeedbackSpeed * Time.time);
+        feedback.rotation = Quaternion.Slerp(feedback.rotation, desiredRotation, FeedbackSpeed * Time.time);
     }
 
     /**

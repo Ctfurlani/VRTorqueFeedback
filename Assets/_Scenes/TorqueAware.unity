@@ -374,7 +374,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 152689955}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85117bf14683c4c17874a914b2a642b7, type: 3}
   m_Name: 
@@ -411,7 +411,7 @@ MonoBehaviour:
       height: 18
     updated: 1
   - name: pin
-    text: 'Pin: 3'
+    text: 'Pin: 5'
     nodeType: 0
     objectTarget: {fileID: 0}
     tooltip: Arduino Digital Pin
@@ -459,7 +459,7 @@ MonoBehaviour:
       height: 18
     updated: 1
   id: 2
-  pin: 3
+  pin: 5
   smooth: 1
   calibratedAngle: 0
   minAngle: -80
@@ -732,7 +732,7 @@ MonoBehaviour:
   servoTheta: {fileID: 1600264278}
   feedbackPointer: {fileID: 1877060133}
   debuggableIn2D: 0
-  neutralizeCenterOfMass: 0
+  neutralizeCenterOfMass: 1
   moveServosTogether: 1
   maxAngle: 80
   minAngle: -80
