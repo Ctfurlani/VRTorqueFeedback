@@ -462,7 +462,7 @@ MonoBehaviour:
   pin: 5
   smooth: 1
   calibratedAngle: 0
-  minAngle: -80
+  minAngle: -90
   maxAngle: 90
   angle: 0
   handleObject: {fileID: 0}
@@ -734,8 +734,8 @@ MonoBehaviour:
   debuggableIn2D: 0
   neutralizeCenterOfMass: 1
   moveServosTogether: 1
-  maxAngle: 80
-  minAngle: -80
+  maxAngle: 90
+  minAngle: -90
 --- !u!1 &478600090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1816,8 +1816,8 @@ MonoBehaviour:
   id: 1
   pin: 2
   smooth: 1
-  calibratedAngle: 0
-  minAngle: -80
+  calibratedAngle: 20
+  minAngle: -90
   maxAngle: 90
   angle: 0
   handleObject: {fileID: 0}

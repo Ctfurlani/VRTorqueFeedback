@@ -22,8 +22,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     private const float FeedbackLength = 1;
     private const float FeedbackMass = 1;
     private const float Gravity = 9.8f;
-    private const float NeutralCenterOfMassXBias = 70;
-    private const float NeutralCenterOfMassYBias = 20;
+    private const float NeutralCenterOfMassXBias = 50; /* 50 points up using 3d-printed stand. 70 to tilt a little backwards */
 
     private void Start() {
         _fsmState = FsmState.ToHome;
@@ -110,8 +109,8 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     {
         // From the controller rotation, X bias (quaternion multiplication)
         Quaternion rotation = _hand.controller.transform.rot * Quaternion.Euler(NeutralCenterOfMassXBias, 0, 0);
-        // Now set Y to a constant (180, which is home, + Y bias) and negate X and Z angles (so feedback moves against hand rotation)
-        rotation = Quaternion.Euler(-rotation.eulerAngles.x, 180 + NeutralCenterOfMassYBias, -rotation.eulerAngles.z);
+        // Now set Y to a constant (180, which is home) and negate X and Z angles (so feedback moves against hand rotation)
+        rotation = Quaternion.Euler(-rotation.eulerAngles.x, 180, -rotation.eulerAngles.z);
         return rotation;
     }
 
