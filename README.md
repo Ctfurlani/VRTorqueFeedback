@@ -4,7 +4,7 @@ Software and Hardware to emulate haptic feedback of weighted objects in VR.
 ## Principle Of Operation
 The idea is that the pointer (sometimes refered to as "feedback" in the code) moves/rotates in order to shift the center of mass of the controller. This creates a torque that mimics the direction and intensity of the one that would be exerted by the virtual object being held.
 
-**Picture of feedback moving and torques**
+<img src="Doc/torque.jpg" height=200px>
 
 ## Calculating Pointer Position
 If we imagine the feedback stem/pointer as a vector in R3, we can define references and directions of motion to use in our program. In "home" position, the vector points up, alligned with the Y axis. From this position, it can rotate alpha degrees around the X axis, and Gamma degrees around the Z axis, reaching any position in a hemisphere of positive Y values.
@@ -16,12 +16,13 @@ Ideal torque T will be achieved if and only if the pointer is rotated by alpha a
 **TODO write and explain final equation of angles**
 
 **Picture of decompositions and angles**
+
 <img src="Doc/servos_alpha_gamma.jpg" height=200px>
 
 ### "Neutralizing" Center of Mass
 When the user is not holding any object, the program can rotate the feedback pointer so that it shifts the controller's center of mass to a position where (ideally) no torque would be exerted over the player's hand. The heuristic to achieve this effect is to rotate the pointer according to the rotation of the controller, in the opposite direction of rotation around X and Z axes. As an example, if the user tilts the controller by 30 degrees around the X axis and 45 degrees around the Z axis, the pointer will rotate by -30 and -45 degrees (maybe multiplied by a proportionality constant) around X and Z to compensate.
 
-**Picure of tilted controller and pointer**
+<img src="Doc/neutral_center_of_mass.jpg" height=200px>
 
 ## Obtaining Angles for Servos
 The angles alpha and gamma are not the ones to be used by the servo motors. This is because the two DoFs of the motors are not the same as the ones used in our previous calculations (rotations around X and Z axes). The servos combine theta (angles from Z in the XZ plane) and phi (angles from Y axis) rotations in spherical coordinates, with fixed radius. This angles must be derived unambiguously from the position of the feedback pointer, to provide the mirroring from the virtual pointer to the real one.
