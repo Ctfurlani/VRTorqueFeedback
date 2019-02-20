@@ -4,7 +4,7 @@ Software and Hardware to emulate haptic feedback of weighted objects in VR.
 ## Principle Of Operation
 The idea is that the pointer (sometimes refered to as "feedback" in the code) moves/rotates in order to shift the center of mass of the controller. This creates a torque that mimics the direction and intensity of the one that would be exerted by the virtual object being held.
 
-<img src="Doc/torque.jpg" height=200px>
+<img src="Doc/Pictures/torque.jpg" height=200px>
 
 ## Calculating Pointer Position
 If we imagine the feedback stem/pointer as a vector in R3, we can define references and directions of motion to use in our program. In "home" position, the vector points up, alligned with the Y axis. From this position, it can rotate alpha degrees around the X axis, and Gamma degrees around the Z axis, reaching any position in a hemisphere of positive Y values.
