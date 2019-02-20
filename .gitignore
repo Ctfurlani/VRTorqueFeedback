@@ -7,7 +7,6 @@ Assets/AssetStoreTools*
 /ExportedSketches
 .idea
 .vscode
-.vs
 
 # Visual Studio cache directory
 .vs/
