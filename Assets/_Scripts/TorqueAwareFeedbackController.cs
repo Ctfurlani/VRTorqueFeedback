@@ -22,7 +22,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     private const float FeedbackLength = 1;
     private const float FeedbackMass = 1;
     private const float Gravity = 9.8f;
-    private const float NeutralCenterOfMassXBias = 50; /* 50 points up using 3d-printed stand. 70 to tilt a little backwards */
+    private const float NeutralCenterOfMassXBias = 50; /* 50 makes arrow point up using stand. 70 tilts a bit backwards */
 
     private void Start() {
         _fsmState = FsmState.ToHome;
