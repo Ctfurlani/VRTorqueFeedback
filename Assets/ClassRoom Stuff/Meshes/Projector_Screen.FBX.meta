@@ -16,7 +16,18 @@ ModelImporter:
     4300000: Box49
     4300002: Box099
     9500000: //RootNode
-  externalObjects: {}
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 6c0515de57deed8459f6222d2d67e82f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Projector Screen
+    second: {fileID: 2100000, guid: aa664f6427d773040b703e4fbe540051, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
