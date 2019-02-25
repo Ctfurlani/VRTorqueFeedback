@@ -70,9 +70,8 @@ calculate **Tx** and **Tz**).
 
 We then solve for alpha' and gamma', while substituting |**Wx**| =
 |**Wz**| = |**W**| for m * g (to account for real feedback weight);
-|**Rx**| for |**Rx**| * l; and |**Rz**| for |**Rz**| * l (to account for
-real feedback length, but keeping proportions between **Rx** and
-**Rz**).
+|**Rx**| for rx * l; and |**Rz**| for rz * l (to account for real
+feedback length, but keeping proportions between **Rx** and **Rz**).
 
 <!-- alpha' = arcsin((|**Tx**|) / |**Rx**| * l * m * g) -->
 
@@ -81,6 +80,8 @@ real feedback length, but keeping proportions between **Rx** and
 <img src="Doc/Pictures/alpha_prime.png" height="65">
 
 <img src="Doc/Pictures/gamma_prime.png" height="65">
+
+<img src="Doc/Pictures/rx_rz.png" height="75">
 
 We could simplify l * m * g to a single constant c, but it's useful to
 have it separated into the two tangible variables l and m because of the
@@ -125,6 +126,7 @@ the feedback pointer, to provide the mirroring from the virtual pointer
 to the real one.
 
 <img src="Doc/Pictures/spherical_coords_unity_axes.jpg" height=200>
+
 <img src="Doc/Pictures/servos_theta_phi.jpg" height=200>
 
 ## Moving the Servos
@@ -140,4 +142,5 @@ scene, these objects are the "Mirror Servo Theta" and "Mirror Servo
 Phi".
 
 <img src="Doc/Pictures/ardunity_wires.jpg" height=200>
+
 <img src="Doc/Pictures/mirror_servos_with_theta_phi.jpg" height=200>

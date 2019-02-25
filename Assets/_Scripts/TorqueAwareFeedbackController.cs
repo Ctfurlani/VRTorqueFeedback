@@ -359,7 +359,9 @@ public class TorqueAwareFeedbackController : MonoBehaviour
             Vector3 controllerCenterOfMass = _hand.GetComponent<Transform>().position;
             Vector3 attachedCenterOfMass = attachedObject.GetComponent<Transform>().position;
             Vector3 controllerToAttached = attachedCenterOfMass - controllerCenterOfMass;
-
+            float controllerToAttachedProjMag = Mathf.Abs(Vector3.Dot(controllerToAttached, torqueComponentUnitVector));
+            float controllerToAttachedPercentageProjectedInComponent = Mathf.Pow(controllerToAttachedProjMag / controllerToAttached.magnitude, 2);
+            
             // Find vector W (weight of the virtual object)
             Vector3 objectWeight = Vector3.down * attachedObject.GetComponent<Rigidbody>().mass;
 
@@ -372,7 +374,8 @@ public class TorqueAwareFeedbackController : MonoBehaviour
 
             // Calculate angle the feedback should move to
             float sign = (projectedMagnitude > 0) ? 1 : -1;
-            float asinParameter = torqueComponent.magnitude / (FeedbackLength * FeedbackMass * Gravity);
+            float asinParameter = torqueComponent.magnitude / 
+                                  (controllerToAttachedPercentageProjectedInComponent * FeedbackLength * FeedbackMass * Gravity);
             asinParameter = Mathf.Clamp(asinParameter, -1, 1);
             angle = sign * Mathf.Asin(asinParameter) * Mathf.Rad2Deg;
             angle = Mathf.Clamp(angle, minAngle, maxAngle);
