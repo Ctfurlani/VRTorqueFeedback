@@ -9,7 +9,7 @@ controller. This creates a torque that mimics the direction and
 intensity of the one that would be exerted by the virtual object being
 held.
 
-<p align="center"> <img src="Doc/Pictures/torque.jpg" align="center" height=200> </p> 
+<p align="center"> <img src="Doc/Pictures/torque.jpg" align="center" height=200> </p>
 
 ## Calculating Pointer Position
 If we imagine the feedback stem/pointer as a vector in R3, we can define
