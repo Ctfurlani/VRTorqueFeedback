@@ -18,7 +18,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     private Hand _hand;
     private FsmState _fsmState;
 
-    private const float FeedbackSpeed = 0.1f;
+    private const float FeedbackSpeed = 100;
     private const float FeedbackLength = 1;
     private const float FeedbackMass = 1;
     private const float Gravity = 9.8f;
@@ -73,7 +73,7 @@ public class TorqueAwareFeedbackController : MonoBehaviour
         }
 
         // Rotate feedback
-        feedback.rotation = Quaternion.Slerp(feedback.rotation, desiredRotation, FeedbackSpeed * Time.time);
+        feedback.rotation = desiredRotation;
     }
 
     /**
@@ -286,14 +286,15 @@ public class TorqueAwareFeedbackController : MonoBehaviour
     {
         servoTheta.rotation = QuaternionsClose(servoTheta.rotation, desiredRotation)
             ? desiredRotation
-            : Quaternion.Lerp(servoTheta.rotation, desiredRotation, FeedbackSpeed * Time.time);
+            : Quaternion.RotateTowards(servoTheta.rotation, desiredRotation, FeedbackSpeed * Time.deltaTime);
+        // Quaternion.RotateTowards(transform.rotation, newRotation, Time.deltaTime * rotateSpeed); 
     }
 
     private void MovePhiServo(Quaternion desiredRotation)
     {
         servoPhi.rotation = QuaternionsClose(servoPhi.rotation, desiredRotation)
             ? desiredRotation
-            : Quaternion.Lerp(servoPhi.rotation, desiredRotation, FeedbackSpeed * Time.time);
+            : Quaternion.RotateTowards(servoPhi.rotation, desiredRotation, FeedbackSpeed * Time.deltaTime);
     }
 
     private bool QuaternionsClose(Quaternion q1, Quaternion q2, float threshold)
